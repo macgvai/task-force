@@ -1,0 +1,17 @@
+{
+  "name": "taskforce/taskforce",
+  "description": "desc",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Victor",
+      "email": "st.viktorr@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "taskforce\\": "src/"
+    }
+  }
+}
