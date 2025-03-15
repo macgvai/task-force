@@ -1,7 +1,7 @@
 <?php
 
 
-namespace frexin\exceptions;
+namespace victor\exceptions;
 
 
 class ConverterException extends \Exception

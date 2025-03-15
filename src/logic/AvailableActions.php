@@ -1,12 +1,12 @@
 <?php
-namespace frexin\logic;
+namespace victor\logic;
 
-use frexin\exceptions\StatusActionException;
-use frexin\logic\actions\AbstractAction;
-use frexin\logic\actions\CancelAction;
-use frexin\logic\actions\CompleteAction;
-use frexin\logic\actions\DenyAction;
-use frexin\logic\actions\ResponseAction;
+use victor\exceptions\StatusActionException;
+use victor\logic\actions\AbstractAction;
+use victor\logic\actions\CancelAction;
+use victor\logic\actions\CompleteAction;
+use victor\logic\actions\DenyAction;
+use victor\logic\actions\ResponseAction;
 
 class AvailableActions
 {

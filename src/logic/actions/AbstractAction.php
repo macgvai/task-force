@@ -1,5 +1,5 @@
 <?php
-namespace frexin\logic\actions;
+namespace victor\logic\actions;
 
 abstract class AbstractAction
 {

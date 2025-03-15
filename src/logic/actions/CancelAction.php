@@ -1,7 +1,7 @@
 <?php
 
 
-namespace frexin\logic\actions;
+namespace victor\logic\actions;
 
 
 class CancelAction extends AbstractAction

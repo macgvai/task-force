@@ -35,6 +35,10 @@ class ComposerStaticInit7309b9d2e4518ad52988e780a875afc0
             'yii\\bootstrap5\\' => 15,
             'yii\\' => 4,
         ),
+        'v' => 
+        array (
+            'victor\\' => 7,
+        ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
@@ -125,6 +129,10 @@ class ComposerStaticInit7309b9d2e4518ad52988e780a875afc0
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'victor\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'cebe\\markdown\\' => 
         array (

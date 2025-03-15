@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use yii\web\Controller;
+use victor\exceptions\ConverterException;
 
 class SiteController extends Controller
 {

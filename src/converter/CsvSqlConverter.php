@@ -1,8 +1,8 @@
 <?php
-namespace frexin\converter;
+namespace victor\converter;
 
 use DirectoryIterator;
-use frexin\exceptions\ConverterException;
+use victor\exceptions\ConverterException;
 use SplFileInfo;
 use SplFileObject;
 
