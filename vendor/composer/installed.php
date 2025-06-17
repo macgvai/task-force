@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'yiisoft/yii2-app-basic',
-        'pretty_version' => '2.0.52',
-        'version' => '2.0.52.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '1533f2e365be3d55bc8b4758c5299693bb81c204',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -740,9 +740,9 @@
             'dev_requirement' => false,
         ),
         'yiisoft/yii2-app-basic' => array(
-            'pretty_version' => '2.0.52',
-            'version' => '2.0.52.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '1533f2e365be3d55bc8b4758c5299693bb81c204',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -785,9 +785,9 @@
             'dev_requirement' => true,
         ),
         'yiisoft/yii2-gii' => array(
-            'pretty_version' => '2.2.7',
-            'version' => '2.2.7.0',
-            'reference' => 'f17c7ef7ef3081213f612b37ad0ceaa8e8cd3d3b',
+            'pretty_version' => '2.2.0',
+            'version' => '2.2.0.0',
+            'reference' => '7736b837da5cc0503cf15f482170e07eca9dd933',
             'type' => 'yii2-extension',
             'install_path' => __DIR__ . '/../yiisoft/yii2-gii',
             'aliases' => array(),

@@ -20,6 +20,8 @@ CREATE TABLE tasks (
                        user_id INT,
                        FOREIGN KEY (user_id) REFERENCES  users(id)
 )
+
+
 -- CREATE TABLE categories (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     category_name VARCHAR(128),
@@ -63,3 +65,11 @@ CREATE TABLE tasks (
 -- );
 
 -- CREATE INDEX user_email ON users(email);
+
+CREATE TABLE contact (
+                         id SERIAL PRIMARY KEY,  -- SERIAL = автоинкремент в PostgreSQL
+                         name VARCHAR(255),
+                         phone VARCHAR(20),
+                         email VARCHAR(255),
+                         position VARCHAR(100)
+);
