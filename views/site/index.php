@@ -1,7 +1,19 @@
 <?php
 
-/* @var $this yii\web\View */
+use yii\grid\GridView;
 
-$this->title = 'My Yii Application';
-?>
-<h1>Hello worgggggggggggld</h1>
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+    echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'email',
+            'name',
+
+//            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]);
+

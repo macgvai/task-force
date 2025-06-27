@@ -64,7 +64,7 @@ class Tasks extends \yii\db\ActiveRecord
             'expire_dt' => 'Expire Dt',
             'dt_add' => 'Dt Add',
             'client_id' => 'Client ID',
-            'performer_id' => 'Performer ID',
+            'performer_id' => 'Исполнитель',
             'status_id' => 'Status ID',
         ];
     }

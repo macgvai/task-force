@@ -51,7 +51,7 @@ AppAsset::register($this);
         <div class="user-menu">
             <p class="user-name">Василий</p>
             <div class="popup-head">
-                <ul class="popup-menu">
+                <ul class="popup-menu">yii
                     <li class="menu-item">
                         <a href="#" class="link">Настройки</a>
                     </li>

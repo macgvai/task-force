@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\Tasks;
+use app\models\Users;
+use yii\data\ActiveDataProvider;
+use yii\grid\GridView;
 use yii\web\Controller;
 use victor\exceptions\ConverterException;
 
@@ -13,13 +17,17 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {
+public function actionIndex()
+{
+//    $searchModel = new YourModelSearch(); // Предполагается, что у вас есть SearchModel
+    $data = Users::find();
+    $dataProvider = new ActiveDataProvider([
+        'query' => $data,
+    ]);
 
-        \Yii::$app->db->open(); // проверка, что параметры подключения к БД установлены верно
-        print_r('aaaaaaaaaaaaaaaaaa');
-
-        return $this->render('index');
-    }
+    return $this->render('index', [
+        'dataProvider' => $dataProvider,
+    ]);
+}
 
 }
