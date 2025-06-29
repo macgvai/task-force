@@ -2,10 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\Tasks;
 use app\models\Users;
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
 use yii\web\Controller;
 use victor\exceptions\ConverterException;
 

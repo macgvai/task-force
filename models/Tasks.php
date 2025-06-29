@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use function PHPUnit\Framework\isNull;
 
 /**
  * This is the model class for table "tasks".
@@ -24,6 +25,10 @@ use Yii;
  */
 class Tasks extends \yii\db\ActiveRecord
 {
+    public $noResponse;
+    public $noLocation;
+    public $filterPeriod;
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +71,9 @@ class Tasks extends \yii\db\ActiveRecord
             'client_id' => 'Client ID',
             'performer_id' => 'Исполнитель',
             'status_id' => 'Status ID',
+            'noResponse' => 'Без откликов',
+            'noLocation' => 'Удалённая работа',
+            'filterPeriod' => 'Период',
         ];
     }
 
@@ -87,6 +95,36 @@ class Tasks extends \yii\db\ActiveRecord
     public function getStatus()
     {
         return $this->hasOne(Statuses::className(), ['id' => 'status_id']);
+    }
+
+    public function getFilters(): TasksQuery
+    {
+        $query = self::find();
+
+        // Фильтрация по статусу (новые задания)
+        $query->where(['status_id' => 1]);
+
+        // Фильтрация по категории, если она указана
+        if ($this->category_id) {
+            $query->andWhere(['category_id' => $this->category_id]);
+        }
+
+        if ($this->noResponse) {
+            print_r($this);
+
+            $query->joinWith('replies r')->andWhere(['r.id IS NULL']);
+        }
+
+        if ($this->noLocation) {
+            print_r($this);
+            $query->andWhere('location IS NULL');
+        }
+
+        if ($this->filterPeriod) {
+            $query->andWhere('UNIX_TIMESTAMP(tasks.dt_add) > UNIX_TIMESTAMP() - :period', [':period' => $this->filterPeriod]);
+        }
+
+        return $query->orderBy('dt_add DESC');
     }
 
     /**

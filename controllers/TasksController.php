@@ -14,20 +14,13 @@ class TasksController extends Controller
     public function actionIndex(){
         // Создаем модель для заданий
         $tasksModel = new Tasks();
+        $tasksModel->load(Yii::$app->request->post());
+        $queryTasks =  $tasksModel->getFilters();
 
         // Получаем все категории
         $categories = Categories::find()->all();
 
-        // Получаем задачи со статусом 1
-        $tasks = Tasks::find()->where(['status_id' => 1])->all();
-
-        // Обработка POST-запроса
-        if ($tasksModel->load(Yii::$app->request->post())) {
-            dd($tasksModel);
-            // Логика сохранения или поиска
-            // Например, фильтрация задач
-            $tasks = Tasks::find()->andFilterWhere(['=', 'category', $tasksModel->id])->all();
-        }
+        $tasks = $queryTasks->all();
 
         return $this->render('index', [
             'tasksModel' => $tasksModel,
@@ -35,5 +28,4 @@ class TasksController extends Controller
             'categories' => $categories
         ]);
     }
-
 }
