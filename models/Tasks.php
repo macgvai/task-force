@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 use function PHPUnit\Framework\isNull;
 
 /**
@@ -47,10 +48,12 @@ class Tasks extends \yii\db\ActiveRecord
             [['category_id', 'budget', 'client_id', 'performer_id', 'status_id'], 'default', 'value' => null],
             [['category_id', 'budget', 'client_id', 'performer_id', 'status_id'], 'integer'],
             [['description'], 'string'],
-            [['expire_dt', 'dt_add'], 'safe'],
+            [['expire_dt', 'dt_add', 'noResponse', 'noLocation'], 'safe'],
             [['name', 'location'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Statuses::className(), 'targetAttribute' => ['status_id' => 'id']],
+            [['noResponses', 'noLocation'], 'boolean'],
+            [['filterPeriod'], 'number'],
         ];
     }
 
@@ -110,18 +113,16 @@ class Tasks extends \yii\db\ActiveRecord
         }
 
         if ($this->noResponse) {
-            print_r($this);
-
-            $query->joinWith('replies r')->andWhere(['r.id IS NULL']);
+            $query->joinWith('replies r')->andWhere('r.id IS NULL');
         }
 
         if ($this->noLocation) {
-            print_r($this);
             $query->andWhere('location IS NULL');
         }
 
         if ($this->filterPeriod) {
             $query->andWhere('UNIX_TIMESTAMP(tasks.dt_add) > UNIX_TIMESTAMP() - :period', [':period' => $this->filterPeriod]);
+            dd($this);
         }
 
         return $query->orderBy('dt_add DESC');
@@ -134,5 +135,21 @@ class Tasks extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TasksQuery(get_called_class());
+    }
+
+    /**
+     * Gets query for [[Reply]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReplies(IdentityInterface $user = null): \yii\db\ActiveQuery
+    {
+        $allRepliesQuery = $this->hasMany(Replies::class, ['task_id' => 'id']);
+
+        if ($user && $user->getId() !== $this->client_id) {
+            $allRepliesQuery->where(['replies.user_id' => $user->getId()]);
+        }
+
+        return $allRepliesQuery;
     }
 }

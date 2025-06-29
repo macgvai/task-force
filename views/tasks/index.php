@@ -67,10 +67,10 @@ $categories = $categories ?? [];
                     <h4 class="head-card">Период</h4>
                     <div class="form-group">
                         <?= $form->field($tasksModel, 'filterPeriod', ['template' => '{input}'])->dropDownList([
-                            '1 час' => '1 час',
-                            '12 часов' => '12 часов',
-                            '24 часа' => '24 часа'
-                        ], ['prompt' => 'Выбрать']) ?>
+                            '3600' => 'За последний час',
+                            '86400' => 'За сутки',
+                            '604800' => 'За неделю'
+                        ], ['prompt' => 'Выбрать']); ?>
                     </div>
                     <input type="submit" class="button button--blue" value="Искать">
                 <?php ActiveForm::end(); ?>
