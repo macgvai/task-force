@@ -880,7 +880,7 @@ template {
   right: -145px; }
 
 .right-card {
-  min-width: 300px;
+  width: 240px;
   padding: 25px 30px;
   padding-top: 20px;
   border-radius: 15px;

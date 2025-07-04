@@ -29,6 +29,10 @@ class Tasks extends \yii\db\ActiveRecord
     public $noResponse;
     public $noLocation;
     public $filterPeriod;
+    /**
+     * @var mixed|null
+     */
+    public $replies;
 
     /**
      * {@inheritdoc}
@@ -64,16 +68,16 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'category_id' => 'Category ID',
-            'description' => 'Description',
-            'location' => 'Location',
-            'budget' => 'Budget',
-            'expire_dt' => 'Expire Dt',
-            'dt_add' => 'Dt Add',
-            'client_id' => 'Client ID',
+            'name' => 'Имя',
+            'category_id' => 'Категория',
+            'description' => 'Описание',
+            'location' => 'Локация',
+            'budget' => 'Стоимость',
+            'expire_dt' => 'Дата окончания',
+            'dt_add' => 'Дата добавления',
+            'client_id' => 'Клиент',
             'performer_id' => 'Исполнитель',
-            'status_id' => 'Status ID',
+            'status_id' => 'Статус',
             'noResponse' => 'Без откликов',
             'noLocation' => 'Удалённая работа',
             'filterPeriod' => 'Период',
@@ -122,7 +126,6 @@ class Tasks extends \yii\db\ActiveRecord
 
         if ($this->filterPeriod) {
             $query->andWhere('UNIX_TIMESTAMP(tasks.dt_add) > UNIX_TIMESTAMP() - :period', [':period' => $this->filterPeriod]);
-            dd($this);
         }
 
         return $query->orderBy('dt_add DESC');
@@ -142,12 +145,12 @@ class Tasks extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getReplies(IdentityInterface $user = null): \yii\db\ActiveQuery
+    public function getReplies(?IdentityInterface $user = null)
     {
         $allRepliesQuery = $this->hasMany(Replies::class, ['task_id' => 'id']);
 
         if ($user && $user->getId() !== $this->client_id) {
-            $allRepliesQuery->where(['replies.user_id' => $user->getId()]);
+            $allRepliesQuery->andWhere(['replies.user_id' => $user->getId()]);
         }
 
         return $allRepliesQuery;

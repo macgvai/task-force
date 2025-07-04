@@ -62,4 +62,10 @@ class Replies extends \yii\db\ActiveRecord
     {
         return new RepliesQuery(get_called_class());
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
 }

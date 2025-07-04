@@ -22,7 +22,7 @@ $categories = $categories ?? [];
                 <div class="footer-task">
                     <p class="info-text town-text"><?= $task->location ?></p>
                     <p class="info-text category-text"> <?= $task->category->name ?></p>
-                    <a href="#" class="button button--black">Смотреть Задание</a>
+                    <a href="./tasks/view/<?= $task->id ?>" class="button button--black">Смотреть Задание</a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -51,7 +51,7 @@ $categories = $categories ?? [];
         <div class="right-card black">
             <div class="search-form">
                 <?php $form = ActiveForm::begin(); ?>
-                    <h4 class="head-card">Категории</h4>
+                    <h5 class="head-card">Категории</h5>
                     <?= Html::activeCheckboxList($tasksModel, 'category_id', array_column($categories, 'name', 'id'),
                         [
                             'class' => 'checkbox-wrapper',
@@ -59,12 +59,12 @@ $categories = $categories ?? [];
 //                            'tag' => false
                         ]
                     ); ?>
-                    <h4 class="head-card">Дополнительно</h4>
+                    <h5 class="head-card">Дополнительно</h5>
                     <div class="form-group">
                         <?= $form->field($tasksModel, 'noLocation')->checkbox(['labelOptions' => ['class' => 'control-label']]) ?>
                         <?= $form->field($tasksModel, 'noResponse')->checkbox(['labelOptions' => ['class' => 'control-label']]) ?>
                     </div>
-                    <h4 class="head-card">Период</h4>
+                    <h5 class="head-card">Период</h5>
                     <div class="form-group">
                         <?= $form->field($tasksModel, 'filterPeriod', ['template' => '{input}'])->dropDownList([
                             '3600' => 'За последний час',
