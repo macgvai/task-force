@@ -90,6 +90,11 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasOne(UserSettings::className(), ['user_id' => 'id']);
     }
 
+    Public function getOpinions()
+    {
+        return $this->hasMany(Opinions::className(), ['performer_id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      * @return UsersQuery the active query used by this AR class.

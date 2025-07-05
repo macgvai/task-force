@@ -1,14 +1,16 @@
 <?php
 
+use app\helpers\UIHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use function morphos\Russian\pluralize;
 
 ?>
 <main class="main-content container">
     <div class="left-column">
         <div class="head-wrapper">
             <h3 class="head-main"><?= Html::encode($task->name) ?></h3>
-            <p class="price price--big"><?= $task->budget ?> ₽</p>
+            <p class="price price--big"><?= $task->budget ?>₽</p>
         </div>
         <p class="task-description"> <?= Html::encode($task->description) ?> </p>
         <a href="#" class="button button--blue">Откликнуться на задание</a>
@@ -25,9 +27,9 @@ use yii\helpers\Url;
                 <div class="feedback-wrapper">
                     <a href=" <?= Url::to(['user/view', 'id' => $repl->user_id])?> " class="link link--block link--big"> <?= Html::encode($repl->user->name) ?> </a>
                     <div class="response-wrapper">
-<!--                            --><?php //= UIHelper::showStarRating($repl->useer->rating) ?>
-                        <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-                        <p class="reviews">2 отзыва</p>
+                        <?= UIHelper::showStarRating($repl->user->rating) ?>
+                        <?php $reviewsCount = $repl->user->getOpinions()->count() ?>
+                        <p class="reviews"><?= pluralize($reviewsCount, 'отзыв')?> </p>
                     </div>
                     <p class="response-message">
                        <?= Html::encode($repl->description) ?>
@@ -36,7 +38,7 @@ use yii\helpers\Url;
                 </div>
                 <div class="feedback-wrapper">
                     <p class="info-text"><span class="current-time"> <?= Yii::$app->formatter->asRelativeTime($repl->dt_add) ?> </span></p>
-                    <p class="price price--small"> <?= $repl->budget ?> ₽</p>
+                    <p class="price price--small"> <?= $repl->budget ?>₽</p>
                 </div>
                 <div class="button-popup">
                     <a href="#" class="button button--blue button--small">Принять</a>
@@ -51,13 +53,13 @@ use yii\helpers\Url;
             <h4 class="head-card">Информация о задании</h4>
             <dl class="black-list">
                 <dt>Категория</dt>
-                <dd>Уборка</dd>
+                <dd><?=Html::encode( $task->category->name) ?></dd>
                 <dt>Дата публикации</dt>
-                <dd>25 минут назад</dd>
+                <dd><?= Yii::$app->formatter->asRelativeTime($task->dt_add) ?></dd>
                 <dt>Срок выполнения</dt>
-                <dd>15 октября, 13:00</dd>
+                <dd><?= Yii::$app->formatter->asDatetime($task->expire_dt, 'php:d F H:i') ?></dd>
                 <dt>Статус</dt>
-                <dd>Открыт для новых заказов</dd>
+                <dd><?=Html::encode( $task->status->name) ?></dd>
             </dl>
         </div>
         <div class="right-card white file-card">

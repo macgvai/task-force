@@ -22,6 +22,8 @@ class ComposerStaticInit7309b9d2e4518ad52988e780a875afc0
         'e3b2795a8a512b6083af088fb53afe6c' => __DIR__ . '/..' . '/codeception/codeception/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '77e7c5c0b74965caa0fbb0a094b7713f' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/bootstrap.php',
+        '271cb6f21c9ae69ccbad5cc1b8d6707c' => __DIR__ . '/..' . '/wapmorgan/morphos/src/English/functions.php',
+        '34d31f2fd925dfe2696a521f5ec12db2' => __DIR__ . '/..' . '/wapmorgan/morphos/src/Russian/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -38,6 +40,10 @@ class ComposerStaticInit7309b9d2e4518ad52988e780a875afc0
         'v' => 
         array (
             'victor\\' => 7,
+        ),
+        'm' => 
+        array (
+            'morphos\\' => 8,
         ),
         'c' => 
         array (
@@ -133,6 +139,10 @@ class ComposerStaticInit7309b9d2e4518ad52988e780a875afc0
         'victor\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'morphos\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wapmorgan/morphos/src',
         ),
         'cebe\\markdown\\' => 
         array (

@@ -3,7 +3,7 @@
         'name' => 'yiisoft/yii2-app-basic',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'f34657af927a95b9afa4b84e7f806346175f63e7',
+        'reference' => '827b22085d4b439cd1bbd3a9a095826620f8af25',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -730,6 +730,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'wapmorgan/morphos' => array(
+            'pretty_version' => '3.2.30',
+            'version' => '3.2.30.0',
+            'reference' => 'b7680f96101668ec910627239048e34aae64d6f8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../wapmorgan/morphos',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'yiisoft/yii2' => array(
             'pretty_version' => '2.0.52',
             'version' => '2.0.52.0',
@@ -742,7 +751,7 @@
         'yiisoft/yii2-app-basic' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'f34657af927a95b9afa4b84e7f806346175f63e7',
+            'reference' => '827b22085d4b439cd1bbd3a9a095826620f8af25',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

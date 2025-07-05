@@ -3,6 +3,7 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseStringHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $tasks = $tasks ?? [];
@@ -14,15 +15,15 @@ $categories = $categories ?? [];
         <?php foreach ($tasks as $task): ?>
             <div class="task-card">
                 <div class="header-task">
-                    <a  href="#" class="link link--block link--big"><?= Html::encode($task->name)  ?></a>
-                    <p class="price price--task"><?= $task->budget ?></p>
+                    <a  href="<?= Url::to(['tasks/view', 'id' => $task->id])?>"  class="link link--block link--big"><?= Html::encode($task->name)  ?></a>
+                    <p class="price price--task"><?= $task->budget ?>₽</p>
                 </div>
                 <p class="info-text"><span class="current-time"><?= Yii::$app->formatter->asRelativeTime($task->dt_add) ?> </span></p>
                 <p class="task-text"> <?= Html::encode(BaseStringHelper::truncate($task->description, 200) )  ?></p>
                 <div class="footer-task">
                     <p class="info-text town-text"><?= $task->location ?></p>
                     <p class="info-text category-text"> <?= $task->category->name ?></p>
-                    <a href="./tasks/view/<?= $task->id ?>" class="button button--black">Смотреть Задание</a>
+                    <a href="<?= Url::to(['tasks/view', 'id' => $task->id])?>" class="button button--black">Смотреть Задание</a>
                 </div>
             </div>
         <?php endforeach; ?>

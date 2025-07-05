@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=task_force',
-    'username' => 'root',
-    'password' => '',
+    'dsn' => 'pgsql:host=192.168.1.90;port=5432;dbname=task_force',
+    'username' => 'postgres',
+    'password' => '45893',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
