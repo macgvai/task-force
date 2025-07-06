@@ -1,37 +1,33 @@
+<?php
+
+use app\helpers\UIHelper;
+use yii\helpers\Html;
+$user;
+
+?>
 
 <main class="main-content container">
     <div class="left-column">
-        <h3 class="head-main">Астахов Павел</h3>
+        <h3 class="head-main"><?= Html::encode($user->name) ?></h3>
         <div class="user-card">
             <div class="photo-rate">
-                <img class="card-photo" src="img/man-glasses.png" width="191" height="190" alt="Фото пользователя">
+                <img class="card-photo" src="<?= !empty($user->avatar) ? $user->avatar : '/img/avatars/3.png' ?>" width="191" height="190" alt="Фото пользователя">
                 <div class="card-rate">
-                    <div class="stars-rating big"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-                    <span class="current-rate">4.23</span>
+                    <?= UIHelper::showStarRating($user->getRating()); ?>
+                    <span class="current-rate"> <?= $user->getRating(); ?> </span>
                 </div>
             </div>
-            <p class="user-description">
-                Внезапно, ключевые особенности структуры проекта
-                неоднозначны и будут подвергнуты целой серии
-                независимых исследований. Следует отметить, что
-                высококачественный прототип будущего проекта, в
-                своём классическом представлении, допускает
-                внедрение своевременного выполнения сверхзадачи.
-            </p>
+            <p class="user-description"> <?= $user->description ?> </p>
         </div>
         <div class="specialization-bio">
             <div class="specialization">
                 <p class="head-info">Специализации</p>
                 <ul class="special-list">
-                    <li class="special-item">
-                        <a href="#" class="link link--regular">Ремонт бытовой техники</a>
-                    </li>
-                    <li class="special-item">
-                        <a href="#" class="link link--regular">Курьер</a>
-                    </li>
-                    <li class="special-item">
-                        <a href="#" class="link link--regular">Оператор ПК</a>
-                    </li>
+                    <?php foreach ($user->userCategories as $category): ?>
+                        <li class="special-item">
+                            <a href="#" class="link link--regular"><?=$category->name; ?></a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
             <div class="bio">

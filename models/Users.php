@@ -13,6 +13,7 @@ use Yii;
  * @property int $city_id
  * @property string $password
  * @property string $dt_add
+ * @property int $fail_count
  *
  * @property Cities $city
  * @property UserCategories[] $userCategories
@@ -77,8 +78,17 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getUserCategories()
     {
-        return $this->hasMany(UserCategories::className(), ['user_id' => 'id']);
+//        $sql = 'SELECT c.name FROM user_categories as u LEFT JOIN categories as c ON u.category_id = c.id WHERE u.user_id = :id';
+//
+//        $res = Yii::$app->db->createCommand($sql)
+//            ->bindValue(':id', $this->id)
+//            ->queryAll(\PDO::FETCH_OBJ);
+//
+//            return $res;
+
+        return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_categories', ['user_id' => 'id']);
     }
+
 
     /**
      * Gets query for [[UserSettings]].
@@ -93,6 +103,22 @@ class Users extends \yii\db\ActiveRecord
     Public function getOpinions()
     {
         return $this->hasMany(Opinions::className(), ['performer_id' => 'id']);
+    }
+
+
+    public function getRating()
+    {
+        $rating = null;
+
+        $opinionsCount = $this->getOpinions()->count();
+
+        if ($opinionsCount) {
+            $ratingSum = $this->getOpinions()->sum('rate');
+            $failCount = $this->fail_count;
+            $rating = round(intdiv($ratingSum, $opinionsCount + $failCount), 2);
+        }
+
+        return $rating;
     }
 
     /**
