@@ -53,6 +53,16 @@ class Opinions extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getOwner()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'owner_id']);
+    }
+
+    public function getTask()
+    {
+        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
     /**
      * {@inheritdoc}
      * @return OpinionsQuery the active query used by this AR class.

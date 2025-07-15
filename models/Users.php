@@ -21,6 +21,18 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
+    public $password_repeat;
+
+    public $old_password;
+    public $new_password;
+    public $new_password_repeat;
+    public $hide_contacts;
+
+    /**
+     * @var UploadedFile
+     */
+    public $avatarFile;
+
     /**
      * {@inheritdoc}
      */
@@ -43,6 +55,7 @@ class Users extends \yii\db\ActiveRecord
             [['password'], 'string', 'max' => 64],
             [['email'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['hide_contacts'], 'boolean'],
         ];
     }
 
@@ -58,6 +71,7 @@ class Users extends \yii\db\ActiveRecord
             'city_id' => 'City ID',
             'password' => 'Password',
             'dt_add' => 'Dt Add',
+            'hide_contacts' => 'Показывать контакты только заказчику    ',
         ];
     }
 
@@ -120,6 +134,70 @@ class Users extends \yii\db\ActiveRecord
 
         return $rating;
     }
+
+
+
+    Public function getReplies()
+    {
+        return $this->hasMany(Replies::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Assigned Tasks]].
+     *
+     * @return \yii\db\ActiveQuery|TasksQuery
+     */
+    public function getAssignedTasks($user = null)
+    {
+        $query = $this->hasMany(Tasks::className(), ['client_id' => 'id']);
+
+        if ($user !== null) {
+            // Дополнительный фильтр, если нужен, например, для проверки выполненных задач
+            $query->andWhere(['user_id' => $user->id]);
+        }
+
+        return $query;
+    }
+
+    public function isBusy()
+    {
+        return $this->getAssignedTasks()
+            ->joinWith('status')
+            ->andWhere(['statuses.id' => Statuses::STATUS_IN_PROGRESS])
+            ->exists();
+    }
+
+    public function isContactsAllowed($user)
+    {
+        $result = true;
+
+        if ($this->hide_contacts) {
+            $result = $this->getAssignedTasks($user)->exists();
+        }
+
+        return $result;
+    }
+
+    public function getRatingPosition()
+    {
+        $result = null;
+
+        $sql = "SELECT u.id, (SUM(o.rate) / (COUNT(o.id) + u.fail_count)) as rate FROM users u
+                LEFT JOIN opinions o on u.id = o.performer_id
+                GROUP BY u.id
+                ORDER BY rate DESC";
+
+        $records = Yii::$app->db->createCommand($sql)->queryAll(\PDO::FETCH_ASSOC);
+        $index = array_search($this->id, array_column($records, 'id'));
+
+        if ($index !== false) {
+            $result = $index + 1;
+        }
+
+        return $result;
+    }
+
+
 
     /**
      * {@inheritdoc}
