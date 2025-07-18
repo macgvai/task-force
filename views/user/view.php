@@ -43,7 +43,7 @@ $user;
 
             <?php foreach ($user->opinions as $opinion): ?>
                 <div class="response-card">
-                    <img class="customer-photo" src="<?=$opinion->owner->avatar; ?>" width="120" height="127" alt="Аватар заказчика">
+                    <img class="customer-photo" src=" <?= !empty($opinion->owner->avatar) ? Yii::getAlias('@web/' . ltrim($opinion->owner->avatar, '/')) : Yii::getAlias('@web/img/avatars/3.png') ?> " width="120" height="127" alt="Аватар заказчика">
                     <div class="feedback-wrapper">
                         <p class="feedback">«<?=Html::encode($opinion->description); ?>»</p>
                         <p class="task">Задание «<a href="<?=Url::to(['tasks/view', 'id' => $opinion->task_id]); ?>"
