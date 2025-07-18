@@ -23,7 +23,7 @@ use function morphos\Russian\pluralize;
         <?php foreach ($replies as $repl): ?>
             <!-- Отклик на задание -->
             <div class="response-card">
-                <img class="customer-photo" src="<?= !empty($repl->user->avatar) ? $repl->user->avatar : '/img/avatars/3.png' ?>" width="146" height="156" alt="Фото заказчиков">
+                <img class="customer-photo" src="<?= !empty($repl->user->avatar) ? Yii::getAlias('@web/' . ltrim($repl->user->avatar))  : Yii::getAlias('@web/img/avatars/3.png') ?>" width="146" height="156" alt="Фото заказчиков">
                 <div class="feedback-wrapper">
                     <a href=" <?= Url::to(['user/view', 'id' => $repl->user_id])?> " class="link link--block link--big"> <?= Html::encode($repl->user->name) ?> </a>
                     <div class="response-wrapper">

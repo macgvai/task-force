@@ -7,6 +7,7 @@ use app\models\Users;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\Response;
 
 class AuthController extends Controller
 {
@@ -21,6 +22,10 @@ class AuthController extends Controller
         $cities =  ArrayHelper::map(Cities::find()->all(), 'id', 'name');
 
         if (Yii::$app->request->getIsPost()) {
+
+//            if (Yii::$app->request->isAjax) {
+//                Yii::$app->response->format = Response::FORMAT_JSON;
+//            }
 
             $model->load(Yii::$app->request->post());
             if ($model->validate()) {

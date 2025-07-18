@@ -13,7 +13,7 @@ $user;
         <h3 class="head-main"><?= Html::encode($user->name) ?></h3>
         <div class="user-card">
             <div class="photo-rate">
-                <img class="card-photo" src="<?= !empty($user->avatar) ? $user->avatar : '/img/avatars/3.png' ?>" width="191" height="190" alt="Фото пользователя">
+                <img class="card-photo" src="<?= !empty($user->avatar) ? Yii::getAlias('@web/' . ltrim($user->avatar, '/')) : Yii::getAlias('@web/img/avatars/3.png') ?>" width="191" height="190" alt="Фото пользователя">
                 <div class="card-rate">
                     <?= UIHelper::showStarRating($user->getRating()); ?>
                     <span class="current-rate"> <?= $user->getRating(); ?> </span>
