@@ -18,6 +18,7 @@ use Yii;
  * @property Cities $city
  * @property UserCategories[] $userCategories
  * @property UserSettings $userSettings
+ * @property is_contractor $is_contractor
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -50,12 +51,15 @@ class Users extends \yii\db\ActiveRecord
             [['email', 'name', 'city_id', 'password'], 'required'],
             [['city_id'], 'default', 'value' => null],
             [['city_id'], 'integer'],
-            [['dt_add'], 'safe'],
+            [['dt_add', 'password_repeat'], 'safe'],
             [['email', 'name'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 64],
             [['email'], 'unique'],
+            [['email'], 'email'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
-            [['hide_contacts'], 'boolean'],
+            [['hide_contacts', 'is_contractor'], 'boolean'],
+            // Новое правило: проверка, что password_repeat совпадает с password
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
         ];
     }
 
@@ -67,11 +71,12 @@ class Users extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'email' => 'Email',
-            'name' => 'Name',
+            'name' => 'Имя',
             'city_id' => 'City ID',
             'password' => 'Password',
             'dt_add' => 'Dt Add',
             'hide_contacts' => 'Показывать контакты только заказчику    ',
+            'is_contractor' => 'Я собираюсь откликаться на заказы',
         ];
     }
 
