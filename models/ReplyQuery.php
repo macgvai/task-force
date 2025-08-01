@@ -3,11 +3,11 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[UserCategories]].
+ * This is the ActiveQuery class for [[Reply]].
  *
- * @see UserCategories
+ * @see Reply
  */
-class UserCategoriesQuery extends \yii\db\ActiveQuery
+class ReplyQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class UserCategoriesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return UserCategories[]|array
+     * @return Reply[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class UserCategoriesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return UserCategories|array|null
+     * @return Reply|array|null
      */
     public function one($db = null)
     {

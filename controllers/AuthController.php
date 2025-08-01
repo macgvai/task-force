@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\Cities;
-use app\models\Users;
+use app\models\City;
+use app\models\User;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -18,8 +18,8 @@ class AuthController extends Controller
 
     public function actionSignup()
     {
-        $model = new Users();
-        $cities =  ArrayHelper::map(Cities::find()->all(), 'id', 'name');
+        $model = new User();
+        $cities =  ArrayHelper::map(City::find()->all(), 'id', 'name');
 
         if (Yii::$app->request->getIsPost()) {
 

@@ -25,7 +25,7 @@ use Yii;
  *
  * @property Users $user
  */
-class UserSettings extends \yii\db\ActiveRecord
+class UserSetting extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -83,7 +83,7 @@ class UserSettings extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getUser()
     {
@@ -92,10 +92,10 @@ class UserSettings extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return UserSettingsQuery the active query used by this AR class.
+     * @return UserSettingQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UserSettingsQuery(get_called_class());
+        return new UserSettingQuery(get_called_class());
     }
 }

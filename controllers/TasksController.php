@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\Categories;
+use app\models\Category;
 use app\models\SearchModel;
-use app\models\Tasks;
+use app\models\Task;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -13,12 +13,12 @@ class TasksController extends Controller
 {
     public function actionIndex(){
         // Создаем модель для заданий
-        $tasksModel = new Tasks();
+        $tasksModel = new Task();
         $tasksModel->load(Yii::$app->request->post());
         $queryTasks =  $tasksModel->getFilters();
 
         // Получаем все категории
-        $categories = Categories::find()->all();
+        $categories = Category::find()->all();
 
         $tasks = $queryTasks->all();
 
@@ -32,7 +32,7 @@ class TasksController extends Controller
     public function actionView($id)
     {
         // Получаем задание по id
-        $task = Tasks::findOne($id);
+        $task = Task::findOne($id);
 
         // Получаем отклики на задание
         $replies = $task->getReplies()->all();

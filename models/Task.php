@@ -21,10 +21,10 @@ use function PHPUnit\Framework\isNull;
  * @property int|null $performer_id
  * @property int $status_id
  *
- * @property Categories $category
- * @property Statuses $status
+ * @property Category $category
+ * @property Status $status
  */
-class Tasks extends \yii\db\ActiveRecord
+class Task extends \yii\db\ActiveRecord
 {
     public $noResponse;
     public $noLocation;
@@ -54,8 +54,8 @@ class Tasks extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['expire_dt', 'dt_add', 'noResponse', 'noLocation'], 'safe'],
             [['name', 'location'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Statuses::className(), 'targetAttribute' => ['status_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'id']],
             [['noResponses', 'noLocation'], 'boolean'],
             [['filterPeriod'], 'number'],
         ];
@@ -87,24 +87,24 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Category]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|CategoryQuery
      */
     public function getCategory()
     {
-        return $this->hasOne(Categories::className(), ['id' => 'category_id']);
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
      * Gets query for [[Status]].
      *
-     * @return \yii\db\ActiveQuery|StatusesQuery
+     * @return \yii\db\ActiveQuery|StatusQuery
      */
     public function getStatus()
     {
-        return $this->hasOne(Statuses::className(), ['id' => 'status_id']);
+        return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
 
-    public function getFilters(): TasksQuery
+    public function getFilters(): TaskQuery
     {
         $query = self::find();
 
@@ -133,11 +133,11 @@ class Tasks extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return TasksQuery the active query used by this AR class.
+     * @return TaskQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new TasksQuery(get_called_class());
+        return new TaskQuery(get_called_class());
     }
 
     /**
@@ -147,7 +147,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getReplies(?IdentityInterface $user = null)
     {
-        $allRepliesQuery = $this->hasMany(Replies::class, ['task_id' => 'id']);
+        $allRepliesQuery = $this->hasMany(Reply::class, ['task_id' => 'id']);
 
         if ($user && $user->getId() !== $this->client_id) {
             $allRepliesQuery->andWhere(['replies.user_id' => $user->getId()]);

@@ -3,11 +3,11 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[Files]].
+ * This is the ActiveQuery class for [[File]].
  *
- * @see Files
+ * @see File
  */
-class FilesQuery extends \yii\db\ActiveQuery
+class FileQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class FilesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Files[]|array
+     * @return File[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class FilesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Files|array|null
+     * @return File|array|null
      */
     public function one($db = null)
     {

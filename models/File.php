@@ -14,7 +14,7 @@ use Yii;
  * @property int $user_id
  * @property string $dt_add
  */
-class Files extends \yii\db\ActiveRecord
+class File extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -56,10 +56,10 @@ class Files extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return FilesQuery the active query used by this AR class.
+     * @return FileQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new FilesQuery(get_called_class());
+        return new FileQuery(get_called_class());
     }
 }

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "users".
@@ -15,12 +17,12 @@ use Yii;
  * @property string $dt_add
  * @property int $fail_count
  *
- * @property Cities $city
- * @property UserCategories[] $userCategories
- * @property UserSettings $userSettings
+ * @property City $city
+ * @property UserCategory[] $userCategories
+ * @property UserSetting $userSettings
  * @property is_contractor $is_contractor
  */
-class Users extends \yii\db\ActiveRecord
+class User  extends ActiveRecord implements IdentityInterface
 {
     public $password_repeat;
 
@@ -56,7 +58,7 @@ class Users extends \yii\db\ActiveRecord
             [['password'], 'string', 'max' => 64],
             [['email'], 'unique'],
             [['email'], 'email'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['hide_contacts', 'is_contractor'], 'boolean'],
             // Новое правило: проверка, что password_repeat совпадает с password
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
@@ -83,17 +85,17 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery|CitiesQuery
+     * @return \yii\db\ActiveQuery|CityQuery
      */
     public function getCity()
     {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 
     /**
-     * Gets query for [[UserCategories]].
+     * Gets query for [[UserCategory]].
      *
-     * @return \yii\db\ActiveQuery|UserCategoriesQuery
+     * @return \yii\db\ActiveQuery|UserCategoryQuery
      */
     public function getUserCategories()
     {
@@ -105,23 +107,23 @@ class Users extends \yii\db\ActiveRecord
 //
 //            return $res;
 
-        return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_categories', ['user_id' => 'id']);
+        return $this->hasMany(Category::class, ['id' => 'category_id'])->viaTable('user_categories', ['user_id' => 'id']);
     }
 
 
     /**
-     * Gets query for [[UserSettings]].
+     * Gets query for [[UserSetting]].
      *
-     * @return \yii\db\ActiveQuery|UserSettingsQuery
+     * @return \yii\db\ActiveQuery|UserSettingQuery
      */
     public function getUserSettings()
     {
-        return $this->hasOne(UserSettings::className(), ['user_id' => 'id']);
+        return $this->hasOne(UserSetting::className(), ['user_id' => 'id']);
     }
 
     Public function getOpinions()
     {
-        return $this->hasMany(Opinions::className(), ['performer_id' => 'id']);
+        return $this->hasMany(Opinion::className(), ['performer_id' => 'id']);
     }
 
 
@@ -144,17 +146,17 @@ class Users extends \yii\db\ActiveRecord
 
     Public function getReplies()
     {
-        return $this->hasMany(Replies::className(), ['user_id' => 'id']);
+        return $this->hasMany(Reply::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Assigned Tasks]].
+     * Gets query for [[Assigned Task]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery|TaskQuery
      */
     public function getAssignedTasks($user = null)
     {
-        $query = $this->hasMany(Tasks::className(), ['client_id' => 'id']);
+        $query = $this->hasMany(Task::className(), ['client_id' => 'id']);
 
         if ($user !== null) {
             // Дополнительный фильтр, если нужен, например, для проверки выполненных задач
@@ -168,7 +170,7 @@ class Users extends \yii\db\ActiveRecord
     {
         return $this->getAssignedTasks()
             ->joinWith('status')
-            ->andWhere(['statuses.id' => Statuses::STATUS_IN_PROGRESS])
+            ->andWhere(['statuses.id' => Status::STATUS_IN_PROGRESS])
             ->exists();
     }
 
@@ -206,10 +208,40 @@ class Users extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return UsersQuery the active query used by this AR class.
+     * @return UserQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UsersQuery(get_called_class());
+        return new UserQuery(get_called_class());
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        // TODO: Implement findIdentityByAccessToken() method.
+    }
+
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    public function getAuthKey()
+    {
+        // TODO: Implement getAuthKey() method.
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        // TODO: Implement validateAuthKey() method.
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 }

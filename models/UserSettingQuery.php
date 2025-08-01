@@ -3,11 +3,11 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[Categories]].
+ * This is the ActiveQuery class for [[UserSetting]].
  *
- * @see Categories
+ * @see UserSetting
  */
-class CategoriesQuery extends \yii\db\ActiveQuery
+class UserSettingQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class CategoriesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Categories[]|array
+     * @return UserSetting[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class CategoriesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Categories|array|null
+     * @return UserSetting|array|null
      */
     public function one($db = null)
     {

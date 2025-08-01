@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Users;
+use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use victor\exceptions\ConverterException;
@@ -18,7 +18,7 @@ class SiteController extends Controller
 public function actionIndex()
 {
 //    $searchModel = new YourModelSearch(); // Предполагается, что у вас есть SearchModel
-    $data = Users::find();
+    $data = User::find();
     $dataProvider = new ActiveDataProvider([
         'query' => $data,
     ]);

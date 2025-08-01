@@ -11,10 +11,10 @@ use Yii;
  * @property int $user_id
  * @property int $category_id
  *
- * @property Categories $category
+ * @property Category $category
  * @property Users $user
  */
-class UserCategories extends \yii\db\ActiveRecord
+class UserCategory extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class UserCategories extends \yii\db\ActiveRecord
             [['user_id', 'category_id'], 'required'],
             [['user_id', 'category_id'], 'default', 'value' => null],
             [['user_id', 'category_id'], 'integer'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -53,17 +53,17 @@ class UserCategories extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Category]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|CategoryQuery
      */
     public function getCategory()
     {
-        return $this->hasOne(Categories::className(), ['id' => 'category_id']);
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getUser()
     {
@@ -72,10 +72,10 @@ class UserCategories extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return UserCategoriesQuery the active query used by this AR class.
+     * @return UserCategoryQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UserCategoriesQuery(get_called_class());
+        return new UserCategoryQuery(get_called_class());
     }
 }

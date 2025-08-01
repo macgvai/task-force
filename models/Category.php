@@ -10,10 +10,10 @@ use Yii;
  * @property int $id
  * @property string $name
  *
- * @property Tasks[] $tasks
- * @property UserCategories[] $userCategories
+ * @property Task[] $tasks
+ * @property UserCategory[] $userCategories
  */
-class Categories extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -46,31 +46,31 @@ class Categories extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery|TaskQuery
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['category_id' => 'id']);
+        return $this->hasMany(Task::className(), ['category_id' => 'id']);
     }
 
     /**
-     * Gets query for [[UserCategories]].
+     * Gets query for [[UserCategory]].
      *
-     * @return \yii\db\ActiveQuery|UserCategoriesQuery
+     * @return \yii\db\ActiveQuery|UserCategoryQuery
      */
     public function getUserCategories()
     {
-        return $this->hasMany(UserCategories::className(), ['category_id' => 'id']);
+        return $this->hasMany(UserCategory::className(), ['category_id' => 'id']);
     }
 
     /**
      * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
+     * @return CategoryQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoriesQuery(get_called_class());
+        return new CategoryQuery(get_called_class());
     }
 }

@@ -11,9 +11,9 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $name
  *
- * @property Tasks[] $tasks
+ * @property Task[] $tasks
  */
-class Statuses extends ActiveRecord
+class Status extends ActiveRecord
 {
 
 
@@ -56,21 +56,21 @@ class Statuses extends ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery|TaskQuery
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['status_id' => 'id']);
+        return $this->hasMany(Task::className(), ['status_id' => 'id']);
     }
 
     /**
      * {@inheritdoc}
-     * @return StatusesQuery the active query used by this AR class.
+     * @return StatusQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new StatusesQuery(get_called_class());
+        return new StatusQuery(get_called_class());
     }
 }

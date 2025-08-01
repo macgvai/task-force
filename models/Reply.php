@@ -14,7 +14,7 @@ use Yii;
  * @property int $task_id
  * @property bool|null $is_approved
  */
-class Replies extends \yii\db\ActiveRecord
+class Reply extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -56,11 +56,11 @@ class Replies extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return RepliesQuery the active query used by this AR class.
+     * @return ReplyQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new RepliesQuery(get_called_class());
+        return new ReplyQuery(get_called_class());
     }
 
     public function getUser()

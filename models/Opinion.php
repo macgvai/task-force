@@ -14,7 +14,7 @@ use Yii;
  * @property string $description
  * @property string|null $dt_add
  */
-class Opinions extends \yii\db\ActiveRecord
+class Opinion extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -60,15 +60,15 @@ class Opinions extends \yii\db\ActiveRecord
 
     public function getTask()
     {
-        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+        return $this->hasOne(Task::className(), ['id' => 'task_id']);
     }
 
     /**
      * {@inheritdoc}
-     * @return OpinionsQuery the active query used by this AR class.
+     * @return OpinionQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new OpinionsQuery(get_called_class());
+        return new OpinionQuery(get_called_class());
     }
 }
