@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\City;
+use app\models\LoginForm;
 use app\models\User;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -31,14 +32,38 @@ class AuthController extends Controller
             if ($model->validate()) {
                 $model->password = Yii::$app->security->generatePasswordHash($model->password);
 
-                $model->save();
+                // Попытка сохранить модель
+                if ($model->save(false)) {
+                    return $this->goHome();
+                } else {
+                    // Если save() вернул false, выведите ошибки
+                    Yii::error($model->getErrors(), 'UserSaveError');
+                }
             }
-            return $this->goHome();
         }
 
         return $this->render('signup', [
             'model' => $model,
             'cities' => $cities
             ]);
+    }
+
+    public function actionLogin()
+    {
+        $loginForm = new LoginForm();
+
+        if (Yii::$app->request->getIsPost())
+        {
+            $loginForm->load(Yii::$app->request->post());
+
+            if ($loginForm->validate()) {
+                $user = $loginForm->getUser();
+
+                Yii::$app->user->login($user);
+                return $this->goHome();
+            }
+        }
+
+        return $this->render('index', ['model' => $loginForm]);
     }
 }
