@@ -66,4 +66,19 @@ class AuthController extends Controller
 
         return $this->render('index', ['model' => $loginForm]);
     }
+
+    public function actionProfile()
+    {
+        if ($id = \Yii::$app->user->getId()) {
+            $user = User::findOne($id);
+
+            print($user->email);
+        }
+    }
+
+    public function actionLogout() {
+        \Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
 }

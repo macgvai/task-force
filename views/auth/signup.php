@@ -20,8 +20,9 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'is_contractor')
                     ->checkbox(['labelOptions' => ['class' => 'control-label checkbox-label']]); ?>
 
+            <div class="form-group">
                 <input type="submit" class="button button--blue" value="Создать аккаунт">
-
+            </div>
             <?php ActiveForm::end() ?>
         </div>
     </div>
