@@ -9,6 +9,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class AuthController extends Controller
 {
@@ -56,6 +57,12 @@ class AuthController extends Controller
         {
             $loginForm->load(Yii::$app->request->post());
 
+            // AJAX-валидация
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($loginForm);
+            }
+
             if ($loginForm->validate()) {
                 $user = $loginForm->getUser();
 
@@ -63,8 +70,6 @@ class AuthController extends Controller
                 return $this->goHome();
             }
         }
-
-        return $this->render('index', ['model' => $loginForm]);
     }
 
     public function actionProfile()

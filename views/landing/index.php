@@ -187,17 +187,18 @@ mail@taskforce.com
     </footer>
     <section class="modal enter-form form-modal" id="enter-form">
         <h2>Вход на сайт</h2>
-        <form action="#" method="post">
-            <p>
-                <label class="form-modal-description" for="enter-email">Email</label>
-                <input class="enter-form-email input input-middle" type="email" name="enter-email" id="enter-email">
-            </p>
-            <p>
-                <label class="form-modal-description" for="enter-password">Пароль</label>
-                <input class="enter-form-email input input-middle" type="password" name="enter-email" id="enter-password">
-            </p>
-            <button class="button" type="submit">Войти</button>
-        </form>
+        <?php use app\models\LoginForm;
+        use yii\widgets\ActiveForm;
+        $model = new LoginForm();
+
+        $form = ActiveForm::begin(['enableAjaxValidation' => true, 'action' => ['auth/login']]); ?>
+        <?= $form->field($model, 'email', ['labelOptions' => ['class' => 'form-modal-description'],
+            'inputOptions' => ['class' => 'enter-form-email input input-middle']]); ?>
+        <?= $form->field($model, 'password', [ 'labelOptions' => ['class' => 'form-modal-description'],
+            'inputOptions' => ['class' => 'enter-form-email input input-middle']])->passwordInput(); ?>
+        <button class="button" type="submit">Войти</button>
+        <?php ActiveForm::end(); ?>
+        <button class="form-modal-close" type="button">Закрыть</button>
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
 </div>
