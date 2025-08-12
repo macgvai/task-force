@@ -10,7 +10,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class TasksController extends Controller
+class TasksController extends SecureController
 {
     public function actionIndex(){
         // Создаем модель для заданий
@@ -57,30 +57,4 @@ class TasksController extends Controller
         parent::init();
         Yii::$app->user->loginUrl = ['landing'];
     }
-
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@']
-                    ],
-//                    [
-//                        'allow' => false,
-//                        'actions' => ['update'],
-//                        'matchCallback' => function ($rule, $action) {
-//                            $id = Yii::$app->request->get('id');
-//                            $contact = Contact::findOne($id);
-//
-//                            return $contact->owner_id != Yii::$app->user->getId();
-//                        }
-//                    ]
-                ]
-            ]
-        ];
-    }
-
 }

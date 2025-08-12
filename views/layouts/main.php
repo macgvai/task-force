@@ -5,6 +5,7 @@
 
 use yii\helpers\Html;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -29,7 +30,9 @@ AppAsset::register($this);
         </a>
         <div class="nav-wrapper">
 
-    <?php if (Yii::$app->controller->id !== 'auth'): ?>
+    <?php
+        if (Yii::$app->controller->id !== 'auth'):
+    ?>
 
 
     <ul class="nav-list">
@@ -55,12 +58,12 @@ AppAsset::register($this);
     <?php if (Yii::$app->controller->id !== 'auth'): ?>
     <div class="user-block">
         <a href="#">
-            <img class="user-photo" src=" <?= Yii::getAlias('@web/img/man-glasses.png') ?>" width="55" height="55" alt="Аватар">
+            <img class="user-photo" src=" <?= !empty(Yii::$app->user->identity->avatar) ? Yii::getAlias('@web/' . ltrim(Yii::$app->user->identity->avatar))  : Yii::getAlias('@web/img/avatars/3.png') ?>" width="55" height="55" alt="Аватар">
         </a>
 
 
         <div class="user-menu">
-            <p class="user-name">Василий</p>
+            <p class="user-name"><?= Yii::$app->user->identity->name ?></p>
             <div class="popup-head">
                 <ul class="popup-menu">yii
                     <li class="menu-item">
@@ -70,7 +73,7 @@ AppAsset::register($this);
                         <a href="#" class="link">Связаться с нами</a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="link">Выход из системы</a>
+                        <a href=" <?= Url::to(['auth/logout']) ?>" class="link">Выход из системы</a>
                     </li>
 
                 </ul>

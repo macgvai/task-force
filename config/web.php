@@ -22,6 +22,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => '/landing',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -48,6 +49,7 @@ $config = [
             'rules' => [
                 'tasks/view/<id:\d+>' => 'tasks/view',
                 'user/view/<id:\d+>' => 'user/view',
+                '' => 'tasks/index'
             ],
         ],
     ],
