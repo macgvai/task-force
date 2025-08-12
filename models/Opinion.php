@@ -55,7 +55,7 @@ class Opinion extends \yii\db\ActiveRecord
 
     public function getOwner()
     {
-        return $this->hasOne(Users::className(), ['id' => 'owner_id']);
+        return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 
     public function getTask()

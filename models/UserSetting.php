@@ -52,7 +52,7 @@ class UserSetting extends \yii\db\ActiveRecord
             [['skype', 'messenger'], 'string', 'max' => 32],
             [['phone', 'skype', 'messenger'], 'unique', 'targetAttribute' => ['phone', 'skype', 'messenger']],
             [['user_id'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -87,7 +87,7 @@ class UserSetting extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
