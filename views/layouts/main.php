@@ -25,7 +25,7 @@ AppAsset::register($this);
 
 <header class="page-header">
     <nav class="main-nav">
-        <a href='#' class="header-logo">
+        <a href='<?= Url::to(['/']) ?>' class="header-logo">
             <img class="logo-image" src=" <?= Yii::getAlias('@web/img/logotype.png') ?>" width=227 height=60 alt="taskforce">
         </a>
         <div class="nav-wrapper">
@@ -43,7 +43,7 @@ AppAsset::register($this);
                     <a href="#" class="link link--nav" >Мои задания</a>
                 </li>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Создать задание</a>
+                    <a href="<?= Url::to(['tasks/create']) ?>"" class="link link--nav" >Создать задание</a>
                 </li>
                 <li class="list-item">
                     <a href="#" class="link link--nav" >Настройки</a>

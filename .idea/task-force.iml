@@ -88,6 +88,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-gii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-symfonymailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/wapmorgan/morphos" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/jquery-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-jui" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

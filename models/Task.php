@@ -56,7 +56,7 @@ class Task extends \yii\db\ActiveRecord
             [['name', 'location'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'id']],
-            [['noResponses', 'noLocation'], 'boolean'],
+            [['noResponse', 'noLocation'], 'boolean'],
             [['filterPeriod'], 'number'],
         ];
     }

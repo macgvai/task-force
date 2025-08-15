@@ -7,8 +7,11 @@ use app\models\SearchModel;
 use app\models\Task;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class TasksController extends SecureController
 {
@@ -46,6 +49,35 @@ class TasksController extends SecureController
         return $this->render('view', [
             'task' => $task, // Передаем задание в представление
             'replies' => $replies, // Передаем отклики
+        ]);
+    }
+
+    public function actionCreate()
+    {
+        $model = new Task();
+        $category = ArrayHelper::map(Category::find()->all(), 'id', 'name');
+
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+
+            // AJAX-валидация
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model); // ← ранний выход
+            }
+
+            if ($model->validate()) {
+                if ($model->save(false)) {
+                    return $this->goHome();
+                } else {
+                    Yii::error($model->getErrors(), 'UserSaveError');
+                }
+            }
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'categories' => $category
         ]);
     }
 

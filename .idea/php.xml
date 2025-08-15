@@ -99,6 +99,8 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
       <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/vendor/wapmorgan/morphos" />
+      <path value="$PROJECT_DIR$/vendor/bower-asset/jquery-ui" />
+      <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-jui" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
