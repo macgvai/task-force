@@ -39,10 +39,20 @@ DropZoneAsset::register($this);
 $uploadUrl = Url::toRoute(['tasks/upload']);
 $this->registerJs(<<<JS
 var myDropzone = new Dropzone(".new-file", {
-    maxFiles: 4, url: "$uploadUrl", previewsContainer: ".files-previews",
+    maxFiles: 4, 
+    url: "$uploadUrl", 
+    previewsContainer: ".files-previews",
+    previewTemplate: 
+    `<div class="dz-preview dz-file-preview">
+        <div class="dz-details">
+            <img data-dz-thumbnail />
+            <div class="dz-filename"><span data-dz-name></span></div>
+            <div class="dz-size" data-dz-size></div>
+        </div>
+    </div>`,
     sending: function (none, xhr, formData) {
         formData.append('_csrf', $('input[name=_csrf]').val());
     }
-    });
+});
 JS, View::POS_READY);
 ?>
