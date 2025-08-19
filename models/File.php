@@ -16,6 +16,12 @@ use Yii;
  */
 class File extends \yii\db\ActiveRecord
 {
+    public $file;
+    /**
+     * @var mixed|null
+     */
+    private $size;
+
     /**
      * {@inheritdoc}
      */
@@ -30,10 +36,11 @@ class File extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'path', 'task_id', 'user_id'], 'required'],
+            [['name', 'path', 'user_id', 'task_uid'], 'required'],
             [['task_id', 'user_id'], 'default', 'value' => null],
             [['task_id', 'user_id'], 'integer'],
-            [['dt_add'], 'safe'],
+            [[ 'task_uid'], 'string'],
+            [['dt_add', 'task_uid', 'task_id'], 'safe'],
             [['name', 'path'], 'string', 'max' => 255],
             [['path'], 'unique'],
         ];
@@ -52,6 +59,32 @@ class File extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'dt_add' => 'Dt Add',
         ];
+    }
+
+
+    public function upload()
+    {
+        $this->name = $this->file->name;
+        $newname = uniqid() . '.' . $this->file->getExtension();
+        $this->path = '/uploads/' . $newname;
+        $this->size = $this->file->size;
+        $this->task_uid = $this->task_uid;
+
+        if ($this->save()) {
+            return $this->file->saveAs('@webroot/uploads/' . $newname);
+        }
+
+        return false;
+    }
+
+    public function getTask()
+    {
+        return $this->hasOne(Task::class, ['uid' => 'task_uid']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     /**

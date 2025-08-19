@@ -48,8 +48,12 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['status_id'], 'default', 'value' => function () {
+                return Status::find()->where(['id' => '1'])->scalar();
+            }],
+            ['expire_dt', 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d'), 'minString' => 'чем текущий день'],
             [['name', 'category_id', 'description', 'client_id', 'status_id'], 'required'],
-            [['category_id', 'budget', 'client_id', 'performer_id', 'status_id'], 'default', 'value' => null],
+            [['category_id', 'budget', 'client_id', 'performer_id'], 'default', 'value' => null],
             [['category_id', 'budget', 'client_id', 'performer_id', 'status_id'], 'integer'],
             [['description'], 'string'],
             [['expire_dt', 'dt_add', 'noResponse', 'noLocation'], 'safe'],
@@ -154,5 +158,10 @@ class Task extends \yii\db\ActiveRecord
         }
 
         return $allRepliesQuery;
+    }
+
+    public function getFiles()
+    {
+        return $this->hasMany(File::class, ['task_id' => 'uid']);
     }
 }

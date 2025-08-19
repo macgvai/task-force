@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\File;
 use app\models\SearchModel;
+use app\models\Status;
 use app\models\Task;
 use Yii;
 use yii\filters\AccessControl;
@@ -11,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 class TasksController extends SecureController
@@ -56,22 +59,20 @@ class TasksController extends SecureController
     {
         $model = new Task();
         $category = ArrayHelper::map(Category::find()->all(), 'id', 'name');
+        $model->client_id = Yii::$app->getUser()->id;
+
+        if (!Yii::$app->session->has('task_uid')) {
+            Yii::$app->session->set('task_uid', uniqid('upload'));
+        }
 
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());
+            $model->uid = Yii::$app->session->get('task_uid');
+            $model->save();
 
-            // AJAX-валидация
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($model); // ← ранний выход
-            }
-
-            if ($model->validate()) {
-                if ($model->save(false)) {
-                    return $this->goHome();
-                } else {
-                    Yii::error($model->getErrors(), 'UserSaveError');
-                }
+            if ($model->id) {
+                Yii::$app->session->remove('task_uid');
+                return $this->redirect(['tasks/view', 'id' => $model->id]);
             }
         }
 
@@ -79,6 +80,21 @@ class TasksController extends SecureController
             'model' => $model,
             'categories' => $category
         ]);
+    }
+
+    public function actionUpload()
+    {
+        if (Yii::$app->request->isPost) {
+            $model = new File();
+            $model->file = UploadedFile::getInstanceByName('file');
+            $model->task_uid = Yii::$app->session->get('task_uid');
+            $model->user_id = Yii::$app->getUser()->id;
+
+
+            $model->upload();
+
+            return $this->asJson($model->getAttributes());
+        }
     }
 
 

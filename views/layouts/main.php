@@ -84,7 +84,7 @@ AppAsset::register($this);
     <?php endif; ?>
 
 </header>
-<main class="main-content container">
+<main class="main-content container <?=$this->params['main_class'] ?? ''; ?>">
     <?=$content; ?>
 </main>
 <?php $this->endBody() ?>
