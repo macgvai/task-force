@@ -4,6 +4,7 @@ use app\helpers\UIHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use function morphos\Russian\pluralize;
+$user = Yii::$app->user->getIdentity();
 
 ?>
 <main class="main-content container">
@@ -20,7 +21,7 @@ use function morphos\Russian\pluralize;
             <p class="map-address">Новый арбат, 23, к. 1</p>
         </div>
         <h4 class="head-regular">Отклики на задание</h4>
-        <?php foreach ($replies as $repl): ?>
+        <?php foreach ($task->getReplies($user)->all() as $repl): ?>
             <!-- Отклик на задание -->
             <div class="response-card">
                 <img class="customer-photo" src="<?= !empty($repl->user->avatar) ? Yii::getAlias('@web/' . ltrim($repl->user->avatar))  : Yii::getAlias('@web/img/avatars/3.png') ?>" width="146" height="156" alt="Фото заказчиков">
@@ -35,16 +36,19 @@ use function morphos\Russian\pluralize;
                        <?= Html::encode($repl->description) ?>
                     </p>
 
+                    </div>
+                    <div class="feedback-wrapper">
+                        <p class="info-text"><span class="current-time"> <?= Yii::$app->formatter->asRelativeTime($repl->dt_add) ?> </span></p>
+                        <p class="price price--small"> <?= $repl->budget ?>₽</p>
+                    </div>
+
+                <?php if ($task->client_id == Yii::$app->user->id): ?>
+                    <div class="button-popup">
+                        <a href="#" class="button button--blue button--small">Принять</a>
+                        <a href="#" class="button button--orange button--small">Отказать</a>
+                    </div>
+                <?php endif; ?>
                 </div>
-                <div class="feedback-wrapper">
-                    <p class="info-text"><span class="current-time"> <?= Yii::$app->formatter->asRelativeTime($repl->dt_add) ?> </span></p>
-                    <p class="price price--small"> <?= $repl->budget ?>₽</p>
-                </div>
-                <div class="button-popup">
-                    <a href="#" class="button button--blue button--small">Принять</a>
-                    <a href="#" class="button button--orange button--small">Отказать</a>
-                </div>
-            </div>
 
         <?php endforeach; ?>
     </div>

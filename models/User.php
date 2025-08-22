@@ -82,6 +82,19 @@ class User  extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'createUserSettings']);
+    }
+    public function createUserSettings($event)
+    {
+        $settings = new UserSetting();
+        $settings->user_id = $this->id;
+        $settings->save(false); // false чтобы пропустить повторную валидацию
+    }
+
     /**
      * Gets query for [[City]].
      *

@@ -5,6 +5,7 @@
 
 use app\assets\LandingAsset;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 LandingAsset::register($this);
 ?>
@@ -57,7 +58,7 @@ LandingAsset::register($this);
                 <a href="#" class="header__account-enter open-modal" data-for="enter-form">
                     <span>Вход</span></a>
                 или
-                <a href="signup.html" class="header__account-registration">
+                <a href="<?= Url::to(['auth/signup']) ?>" class="header__account-registration">
                     Регистрация
                 </a>
             </div>
@@ -124,7 +125,6 @@ LandingAsset::register($this);
             'inputOptions' => ['class' => 'enter-form-email input input-middle']])->passwordInput(); ?>
         <button class="button" type="submit">Войти</button>
         <?php ActiveForm::end(); ?>
-        <button class="form-modal-close" type="button">Закрыть</button>
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
 </div>

@@ -35,6 +35,7 @@ class AuthController extends Controller
 
                 // Попытка сохранить модель
                 if ($model->save(false)) {
+                    Yii::$app->user->login($model);
                     return $this->goHome();
                 } else {
                     // Если save() вернул false, выведите ошибки
