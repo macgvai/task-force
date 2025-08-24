@@ -35,7 +35,7 @@ class Reply extends \yii\db\ActiveRecord
             [['user_id', 'task_id'], 'integer'],
             [['dt_add'], 'safe'],
             [['is_approved'], 'boolean'],
-            [['description'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 1000],
         ];
     }
 
@@ -66,6 +66,16 @@ class Reply extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTask()
+    {
+        return $this->hasOne(Task::class, ['id' => 'task_id']);
     }
 
 }

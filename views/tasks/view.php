@@ -44,8 +44,8 @@ $user = Yii::$app->user->getIdentity();
 
                 <?php if ($task->client_id == Yii::$app->user->id): ?>
                     <div class="button-popup">
-                        <a href="#" class="button button--blue button--small">Принять</a>
-                        <a href="#" class="button button--orange button--small">Отказать</a>
+                        <a href="<?= Url::to(['/tasks/approve', 'repl' => $repl->id, 'approve' => true]) ?>" class="button button--blue button--small">Принять</a>
+                        <a href="<?= Url::to(['/tasks/approve', 'repl' => $repl->id, 'approve' => false]) ?>" class="button button--orange button--small">Отказать</a>
                     </div>
                 <?php endif; ?>
                 </div>

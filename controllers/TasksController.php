@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Category;
 use app\models\File;
+use app\models\Reply;
 use app\models\SearchModel;
 use app\models\Status;
 use app\models\Task;
@@ -22,7 +23,7 @@ class TasksController extends SecureController
         // Создаем модель для заданий
         $tasksModel = new Task();
         $tasksModel->load(Yii::$app->request->post());
-        $queryTasks =  $tasksModel->getFilters();
+        $queryTasks =  $tasksModel->getFilters(1);
 
         // Получаем все категории
         $categories = Category::find()->all();
@@ -95,6 +96,24 @@ class TasksController extends SecureController
 
             return $this->asJson($model->getAttributes());
         }
+    }
+
+    public function actionApprove()
+    {
+        $replId = Yii::$app->request->get('repl');
+        $replStatus = Yii::$app->request->get('approve');
+
+        $reply = Reply::findOne($replId);
+        $task = $reply->task;
+
+        $reply->is_approved = filter_var($replStatus, FILTER_VALIDATE_BOOLEAN);;
+        $reply->save();
+
+        $task->performer_id = $reply->user_id;
+        $task->status_id = Status::STATUS_IN_PROGRESS;
+        $task->save(false);
+
+        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
     }
 
 

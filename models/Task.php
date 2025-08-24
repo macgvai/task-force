@@ -108,12 +108,14 @@ class Task extends \yii\db\ActiveRecord
         return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
 
-    public function getFilters(): TaskQuery
+    public function getFilters($status_id = null): TaskQuery
     {
         $query = self::find();
 
         // Фильтрация по статусу (новые задания)
-        $query->where(['status_id' => 1]);
+        if ($status_id) {
+            $query->where(['status_id' => $status_id]);
+        }
 
         // Фильтрация по категории, если она указана
         if ($this->category_id) {
