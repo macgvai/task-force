@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use yii\db\ActiveRecord;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class SecureController extends Controller
 {
@@ -18,18 +20,29 @@ class SecureController extends Controller
                         'allow' => true,
                         'roles' => ['@']
                     ],
-//                    [
-//                        'allow' => false,
-//                        'actions' => ['update'],
-//                        'matchCallback' => function ($rule, $action) {
-//                            $id = Yii::$app->request->get('id');
-//                            $contact = Contact::findOne($id);
-//
-//                            return $contact->owner_id != Yii::$app->user->getId();
-//                        }
-//                    ]
                 ]
             ]
         ];
+    }
+
+    /**
+     * @param $id
+     * @return ActiveRecord
+     * @throws NotFoundHttpException
+     */
+    protected function findOrDie($id, $modelClass): ActiveRecord
+    {
+        $reply = $modelClass::findOne($id);
+
+        if (!$reply) {
+            throw new NotFoundHttpException('Страница не найдена');
+        }
+
+        return $reply;
+    }
+
+    public function getUser()
+    {
+        return \Yii::$app->user->getIdentity();
     }
 }

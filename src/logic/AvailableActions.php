@@ -33,7 +33,7 @@ class AvailableActions
      */
     public function __construct(string $status, ?int $performerId, int $clientId)
     {
-        $this->setStatus($status);
+        $this->setStatus(trim($status));
 
         $this->performerId = $performerId;
         $this->clientId = $clientId;

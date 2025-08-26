@@ -3,6 +3,7 @@
 use app\helpers\UIHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 use function morphos\Russian\pluralize;
 $user = Yii::$app->user->getIdentity();
 
@@ -14,7 +15,11 @@ $user = Yii::$app->user->getIdentity();
             <p class="price price--big"><?= $task->budget ?>₽</p>
         </div>
         <p class="task-description"> <?= Html::encode($task->description) ?> </p>
-        <a href="#" class="button button--blue">Откликнуться на задание</a>
+
+        <?php foreach (UIHelper::getActionButtons($task, $user) as $button): ?>
+            <?=$button;?>
+        <?php endforeach; ?>
+
         <div class="task-map">
             <img class="map" src="img/map.png"  width="725" height="346" alt="Новый арбат, 23, к. 1">
             <p class="map-address town">Москва</p>
@@ -81,3 +86,65 @@ $user = Yii::$app->user->getIdentity();
         </div>
     </div>
 </main>
+
+<!--<section class="pop-up pop-up--act_deny pop-up--close">-->
+<!--    <div class="pop-up--wrapper">-->
+<!--        <h4>Отказ от задания</h4>-->
+<!--        <p class="pop-up-text">-->
+<!--            <b>Внимание!</b><br>-->
+<!--            Вы собираетесь отказаться от выполнения этого задания.<br>-->
+<!--            Это действие плохо скажется на вашем рейтинге и увеличит счетчик проваленных заданий.-->
+<!--        </p>-->
+<!--        <a class="button button--pop-up button--orange" href="--><?php //=Url::to(['tasks/deny', 'id' => $model->id]); ?><!--">Отказаться</a>-->
+<!--        <div class="button-container">-->
+<!--            <button class="button--close" type="button">Закрыть окно</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--<section class="pop-up pop-up--act_complete pop-up--close">-->
+<!--    <div class="pop-up--wrapper">-->
+<!--        <h4>Завершение задания</h4>-->
+<!--        <p class="pop-up-text">-->
+<!--            Вы собираетесь отметить это задание как выполненное.-->
+<!--            Пожалуйста, оставьте отзыв об исполнителе и отметьте отдельно, если возникли проблемы.-->
+<!--        </p>-->
+<!--        <div class="completion-form pop-up--form regular-form">-->
+<!--            --><?php //$form = ActiveForm::begin([
+//                'action' => Url::to(['opinion/create', 'task' => $model->id]),
+//                'enableAjaxValidation' => true,
+//                'validationUrl' => ['opinion/validate'],
+//            ]); ?>
+<!--            --><?php //= $form->field($opinion, 'description')->textarea(); ?>
+<!--            --><?php //= $form->field($opinion, 'rate', ['template' => '{label}{input}' . UIHelper::showStarRating(0, 'big', 5, true) . '{error}'])
+//                ->hiddenInput(); ?>
+<!--            <input type="submit" class="button button--pop-up button--blue" value="Завершить">-->
+<!--            --><?php //ActiveForm::end(); ?>
+<!--        </div>-->
+<!--        <div class="button-container">-->
+<!--            <button class="button--close" type="button">Закрыть окно</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<section class="pop-up pop-up--act_response pop-up--close">
+    <div class="pop-up--wrapper">
+        <h4>Добавление отклика к заданию</h4>
+        <p class="pop-up-text">
+            Вы собираетесь оставить свой отклик к этому заданию.
+            Пожалуйста, укажите стоимость работы и добавьте комментарий, если необходимо.
+        </p>
+        <div class="addition-form pop-up--form regular-form">
+            <?php $form = ActiveForm::begin(['enableAjaxValidation' => true,
+                    'validationUrl' => ['reply/validate', 'task' => $task->id],
+                    'action' => Url::to(['reply/create', 'task' => $task->id])]
+            );
+            ?>
+            <?= $form->field($newReply, 'description')->textarea(); ?>
+            <?= $form->field($newReply, 'budget'); ?>
+            <input type="submit" class="button button--pop-up button--blue" value="Отправить">
+            <?php ActiveForm::end(); ?>
+        </div>
+        <div class="button-container">
+            <button class="button--close" type="button">Закрыть окно</button>
+        </div>
+    </div>
+</section>

@@ -3,12 +3,12 @@ namespace app\helpers;
 
 use app\models\Task;
 use app\models\User;
-use frexin\exceptions\StatusActionException;
-use frexin\logic\actions\CancelAction;
-use frexin\logic\actions\CompleteAction;
-use frexin\logic\actions\DenyAction;
-use frexin\logic\actions\ResponseAction;
-use frexin\logic\AvailableActions;
+use victor\exceptions\StatusActionException;
+use victor\logic\actions\CancelAction;
+use victor\logic\actions\CompleteAction;
+use victor\logic\actions\DenyAction;
+use victor\logic\actions\ResponseAction;
+use victor\logic\AvailableActions;
 use yii\helpers\Html;
 use yii\helpers\Url;
 

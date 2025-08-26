@@ -30,12 +30,11 @@ class Reply extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'description', 'task_id'], 'required'],
-            [['user_id', 'task_id'], 'default', 'value' => null],
-            [['user_id', 'task_id'], 'integer'],
-            [['dt_add'], 'safe'],
-            [['is_approved'], 'boolean'],
-            [['description'], 'string', 'max' => 1000],
+            [['description', 'budget'], 'required'],
+            [['budget'], 'integer', 'min' => 1],
+            [['description'], 'string', 'max' => 255],
+            [['description'], 'unique', 'targetAttribute' => ['task_id', 'user_id'], 'message' => 'Вы уже оставляли отклик к этому заданию'],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 
@@ -48,7 +47,8 @@ class Reply extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'dt_add' => 'Dt Add',
-            'description' => 'Description',
+            'description' => 'Комментариий',
+            'budget' => 'Стоимость',
             'task_id' => 'Task ID',
             'is_approved' => 'Is Approved',
         ];

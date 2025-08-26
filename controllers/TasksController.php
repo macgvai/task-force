@@ -8,6 +8,7 @@ use app\models\Reply;
 use app\models\SearchModel;
 use app\models\Status;
 use app\models\Task;
+use victor\logic\actions\CancelAction;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -45,6 +46,8 @@ class TasksController extends SecureController
         // Получаем отклики на задание
         $replies = $task->getReplies()->all();
 
+        $newReply = new Reply();
+
         // Проверяем, существует ли задание
         if ($task === null) {
             throw new NotFoundHttpException('Задание не найдено.');
@@ -53,6 +56,7 @@ class TasksController extends SecureController
         return $this->render('view', [
             'task' => $task, // Передаем задание в представление
             'replies' => $replies, // Передаем отклики
+            'newReply' => $newReply
         ]);
     }
 
@@ -81,6 +85,18 @@ class TasksController extends SecureController
             'model' => $model,
             'categories' => $category
         ]);
+    }
+
+
+    public function actionCancel($id)
+    {
+        /**
+         * @var Task $task
+         */
+        $task = $this->findOrDie($id, Task::class);
+        $task->goToNextStatus(new CancelAction);
+
+        return $this->redirect(['tasks/view', 'id' => $task->id]);
     }
 
     public function actionUpload()

@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use victor\logic\actions\AbstractAction;
+use victor\logic\AvailableActions;
 use Yii;
 use yii\web\IdentityInterface;
 use function PHPUnit\Framework\isNull;
@@ -165,5 +167,16 @@ class Task extends \yii\db\ActiveRecord
     public function getFiles()
     {
         return $this->hasMany(File::class, ['task_id' => 'uid']);
+    }
+
+
+    public function goToNextStatus(AbstractAction $action)
+    {
+        $actionManager = new AvailableActions($this->status->slug, $this->performer_id, $this->client_id);
+        $nextStatusName = $actionManager->getNextStatus($action);
+
+        $status = Status::findOne(['slug' => $nextStatusName]);
+        $this->link('status', $status);
+        $this->save();
     }
 }
