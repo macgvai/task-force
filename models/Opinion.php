@@ -30,7 +30,7 @@ class Opinion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['owner_id', 'performer_id', 'rate', 'description'], 'required'],
+            [['rate', 'description'], 'required'],
             [['owner_id', 'performer_id', 'rate'], 'default', 'value' => null],
             [['owner_id', 'performer_id', 'rate'], 'integer'],
             [['description'], 'string'],

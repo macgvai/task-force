@@ -179,4 +179,9 @@ class Task extends \yii\db\ActiveRecord
         $this->link('status', $status);
         $this->save();
     }
+
+    public function getOpinions()
+    {
+        return $this->hasMany(Opinion::class, ['task_id' => 'id']);
+    }
 }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Category;
 use app\models\File;
+use app\models\Opinion;
 use app\models\Reply;
 use app\models\SearchModel;
 use app\models\Status;
@@ -48,6 +49,8 @@ class TasksController extends SecureController
 
         $newReply = new Reply();
 
+        $opinion = new Opinion();
+
         // Проверяем, существует ли задание
         if ($task === null) {
             throw new NotFoundHttpException('Задание не найдено.');
@@ -56,7 +59,8 @@ class TasksController extends SecureController
         return $this->render('view', [
             'task' => $task, // Передаем задание в представление
             'replies' => $replies, // Передаем отклики
-            'newReply' => $newReply
+            'newReply' => $newReply,
+            'opinion' => $opinion
         ]);
     }
 
@@ -112,6 +116,16 @@ class TasksController extends SecureController
 
             return $this->asJson($model->getAttributes());
         }
+    }
+
+    public function actionDeny($id)
+    {
+        $reply = $this->findOrDie($id, Reply::class);
+
+        $reply->is_denied = true;
+        $reply->save();
+
+        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
     }
 
     public function actionApprove()

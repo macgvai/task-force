@@ -47,10 +47,10 @@ $user = Yii::$app->user->getIdentity();
                         <p class="price price--small"> <?= $repl->budget ?>₽</p>
                     </div>
 
-                <?php if ($task->client_id == Yii::$app->user->id): ?>
+                <?php if ($task->client_id == Yii::$app->user->id && !$repl->is_denied): ?>
                     <div class="button-popup">
                         <a href="<?= Url::to(['/tasks/approve', 'repl' => $repl->id, 'approve' => true]) ?>" class="button button--blue button--small">Принять</a>
-                        <a href="<?= Url::to(['/tasks/approve', 'repl' => $repl->id, 'approve' => false]) ?>" class="button button--orange button--small">Отказать</a>
+                        <a href="<?= Url::to(['/tasks/deny', 'id' => $repl->id]) ?>" class="button button--orange button--small">Отказать</a>
                     </div>
                 <?php endif; ?>
                 </div>
@@ -101,30 +101,30 @@ $user = Yii::$app->user->getIdentity();
 <!--        </div>-->
 <!--    </div>-->
 <!--</section>-->
-<!--<section class="pop-up pop-up--act_complete pop-up--close">-->
-<!--    <div class="pop-up--wrapper">-->
-<!--        <h4>Завершение задания</h4>-->
-<!--        <p class="pop-up-text">-->
-<!--            Вы собираетесь отметить это задание как выполненное.-->
-<!--            Пожалуйста, оставьте отзыв об исполнителе и отметьте отдельно, если возникли проблемы.-->
-<!--        </p>-->
-<!--        <div class="completion-form pop-up--form regular-form">-->
-<!--            --><?php //$form = ActiveForm::begin([
-//                'action' => Url::to(['opinion/create', 'task' => $model->id]),
-//                'enableAjaxValidation' => true,
-//                'validationUrl' => ['opinion/validate'],
-//            ]); ?>
-<!--            --><?php //= $form->field($opinion, 'description')->textarea(); ?>
-<!--            --><?php //= $form->field($opinion, 'rate', ['template' => '{label}{input}' . UIHelper::showStarRating(0, 'big', 5, true) . '{error}'])
-//                ->hiddenInput(); ?>
-<!--            <input type="submit" class="button button--pop-up button--blue" value="Завершить">-->
-<!--            --><?php //ActiveForm::end(); ?>
-<!--        </div>-->
-<!--        <div class="button-container">-->
-<!--            <button class="button--close" type="button">Закрыть окно</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
+<section class="pop-up pop-up--act_complete pop-up--close">
+    <div class="pop-up--wrapper">
+        <h4>Завершение задания</h4>
+        <p class="pop-up-text">
+            Вы собираетесь отметить это задание как выполненное.
+            Пожалуйста, оставьте отзыв об исполнителе и отметьте отдельно, если возникли проблемы.
+        </p>
+        <div class="completion-form pop-up--form regular-form">
+            <?php $form = ActiveForm::begin([
+                'action' => Url::to(['opinion/create', 'task' => $task->id]),
+                'enableAjaxValidation' => true,
+                'validationUrl' => ['opinion/validate'],
+            ]); ?>
+            <?= $form->field($opinion, 'description')->textarea(); ?>
+            <?= $form->field($opinion, 'rate', ['template' => '{label}{input}' . UIHelper::showStarRating(0, 'big', 5, true) . '{error}'])
+                ->hiddenInput(); ?>
+            <input type="submit" class="button button--pop-up button--blue" value="Завершить">
+            <?php ActiveForm::end(); ?>
+        </div>
+        <div class="button-container">
+            <button class="button--close" type="button">Закрыть окно</button>
+        </div>
+    </div>
+</section>
 <section class="pop-up pop-up--act_response pop-up--close">
     <div class="pop-up--wrapper">
         <h4>Добавление отклика к заданию</h4>
