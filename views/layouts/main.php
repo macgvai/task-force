@@ -87,6 +87,7 @@ AppAsset::register($this);
 <main class="main-content container <?=$this->params['main_class'] ?? ''; ?>">
     <?=$content; ?>
 </main>
+<div class="overlay"></div>
 <?php $this->endBody() ?>
 </body>
 </html>

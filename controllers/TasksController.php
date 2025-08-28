@@ -10,6 +10,7 @@ use app\models\SearchModel;
 use app\models\Status;
 use app\models\Task;
 use victor\logic\actions\CancelAction;
+use victor\logic\actions\DenyAction;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -118,14 +119,19 @@ class TasksController extends SecureController
         }
     }
 
+
     public function actionDeny($id)
     {
-        $reply = $this->findOrDie($id, Reply::class);
+        /**
+         * @var Task $task
+         */
+        $task = $this->findOrDie($id, Task::class);
+        $task->goToNextStatus(new DenyAction());
 
-        $reply->is_denied = true;
-        $reply->save();
+        $performer = $task->performer;
+        $performer->increaseFailCount();
 
-        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
+        return $this->redirect(['tasks/view', 'id' => $task->id]);
     }
 
     public function actionApprove()

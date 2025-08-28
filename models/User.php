@@ -257,4 +257,10 @@ class User  extends ActiveRecord implements IdentityInterface
     {
         $dbHash = trim($this->password); // Удаляем пробелы!
         return Yii::$app->security->validatePassword($password, $dbHash);    }
+
+
+    public function increaseFailCount()
+    {
+        $this->updateCounters(['fail_count' => 1]);
+    }
 }

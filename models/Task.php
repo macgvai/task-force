@@ -184,4 +184,11 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Opinion::class, ['task_id' => 'id']);
     }
+
+    public function getPerformer()
+    {
+        if ($this->performer_id) {
+            return $this->hasOne(User::class, ['id' => 'performer_id']);
+        }
+    }
 }

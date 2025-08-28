@@ -41,29 +41,30 @@ class ReplyController extends SecureController
         }
     }
 
-//    public function actionDeny($id)
-//    {
-//        $reply = $this->findOrDie($id, Reply::class);
-//
-//        $reply->is_denied = true;
-//        $reply->save();
-//
-//        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
-//    }
-//
-//    public function actionApprove($id)
-//    {
-//        $reply = $this->findOrDie($id, Reply::class);
-//        $task = $reply->task;
-//
-//        $reply->is_approved = true;
-//        $reply->save();
-//
-//        $task->performer_id = $reply->user_id;
-//        $task->status_id = Status::STATUS_IN_PROGRESS;
-//        $task->save();
-//
-//        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
-//    }
+
+    public function actionDeny($id)
+    {
+        $reply = $this->findOrDie($id, Reply::class);
+
+        $reply->is_denied = true;
+        $reply->save();
+
+        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
+    }
+
+    public function actionApprove($id)
+    {
+        $reply = $this->findOrDie($id, Reply::class);
+        $task = $reply->task;
+
+        $reply->is_approved = true;
+        $reply->save();
+
+        $task->performer_id = $reply->user_id;
+        $task->status_id = Status::STATUS_IN_PROGRESS;
+        $task->save(false);
+
+        return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
+    }
 
 }
