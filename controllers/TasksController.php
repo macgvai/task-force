@@ -152,8 +152,28 @@ class TasksController extends SecureController
         return $this->redirect(['tasks/view', 'id' => $reply->task_id]);
     }
 
+    public function actionSearchGeoPosition()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            $jsonData = Yii::$app->request->getRawBody();
+            $data = json_decode($jsonData);
+
+            $address = $data->address;
 
 
+            // Здесь можно добавить логику поиска координат по адресу (например, через API)
+            // Например:
+            // $geocodeData = getCoordinatesFromAddress($address);
+
+            return $this->asJson([
+                'address' => $address,
+                // 'lat' => $geocodeData['lat'],
+                // 'lng' => $geocodeData['lng']
+            ]);
+        }
+    }
 
     public function init()
     {
