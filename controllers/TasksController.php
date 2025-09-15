@@ -9,6 +9,7 @@ use app\models\Reply;
 use app\models\SearchModel;
 use app\models\Status;
 use app\models\Task;
+use GuzzleHttp\Client;
 use victor\logic\actions\CancelAction;
 use victor\logic\actions\DenyAction;
 use Yii;
@@ -157,22 +158,60 @@ class TasksController extends SecureController
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
 
-            $jsonData = Yii::$app->request->getRawBody();
-            $data = json_decode($jsonData);
+            try {
+                $client = new Client([
+                    'verify' => __DIR__ . '/../cacert.pem' // Указываем путь к CA-файлу
+                ]);
 
-            $address = $data->address;
+                $jsonData = Yii::$app->request->getRawBody();
+                $data = json_decode($jsonData);
 
+                if (!$data || !isset($data->address)) {
+                    throw new \Exception('Адрес не указан');
+                }
 
-            // Здесь можно добавить логику поиска координат по адресу (например, через API)
-            // Например:
-            // $geocodeData = getCoordinatesFromAddress($address);
+                $address = $data->address;
 
-            return $this->asJson([
-                'address' => $address,
-                // 'lat' => $geocodeData['lat'],
-                // 'lng' => $geocodeData['lng']
-            ]);
+                $response = $client->request('GET', 'https://geocode-maps.yandex.ru/1.x/', [
+                    'query' => [
+                        'apikey' => '5f28bb6a-a01a-4859-8198-ada1ed5821cc',
+                        'lang' => 'ru',
+                        'format' => 'json',
+                        'geocode' => $address
+                    ]
+                ]);
+
+                $body = $response->getBody();
+                $geocodeData = json_decode($body, true);
+
+                // Парсим ответ от Яндекс Геокодера
+                if (isset($geocodeData['response']['GeoObjectCollection']['featureMember'][0])) {
+                    $feature = $geocodeData['response']['GeoObjectCollection']['featureMember'][0];
+                    $geoObject = $feature['GeoObject'];
+                    $pos = $geoObject['Point']['pos'];
+                    list($lng, $lat) = explode(' ', $pos);
+
+                    $fullAddress = $geoObject['metaDataProperty']['GeocoderMetaData']['text'];
+
+                    return $this->asJson([
+                        'success' => true,
+                        'address' => $fullAddress,
+                        'lat' => (float)$lat,
+                        'lng' => (float)$lng
+                    ]);
+                } else {
+                    throw new \Exception('Адрес не найден');
+                }
+
+            } catch (\Exception $e) {
+                return $this->asJson([
+                    'success' => false,
+                    'error' => $e->getMessage()
+                ]);
+            }
         }
+
+        throw new \yii\web\BadRequestHttpException('Только AJAX запросы');
     }
 
     public function init()

@@ -87,11 +87,12 @@ location.on('input', function (event) {
         .then(response => response.json())
         .then(data => {
             console.log('Результаты геопоиска:', data);
+            location.val(data.address);
         })
         .catch(error => {
             console.error('Ошибка геопоиска:', error);
         });
-    }, 500);
+    }, 2000);
 });
 
 

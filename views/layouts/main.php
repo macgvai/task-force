@@ -89,6 +89,8 @@ AppAsset::register($this);
 </main>
 <div class="overlay"></div>
 <?php $this->endBody() ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.02.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
 </body>
 </html>
 <?php $this->endPage() ?>
