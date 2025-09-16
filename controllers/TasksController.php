@@ -185,22 +185,31 @@ class TasksController extends SecureController
                 $geocodeData = json_decode($body, true);
 
                 // Парсим ответ от Яндекс Геокодера
-                if (isset($geocodeData['response']['GeoObjectCollection']['featureMember'][0])) {
-                    $feature = $geocodeData['response']['GeoObjectCollection']['featureMember'][0];
-                    $geoObject = $feature['GeoObject'];
-                    $pos = $geoObject['Point']['pos'];
-                    list($lng, $lat) = explode(' ', $pos);
+                if (isset($geocodeData['response']['GeoObjectCollection']['featureMember'])) {
+                    $features = $geocodeData['response']['GeoObjectCollection']['featureMember'];
+                    $results = [];
 
-                    $fullAddress = $geoObject['metaDataProperty']['GeocoderMetaData']['text'];
+                    foreach ($features as $feature) {
+                        $geoObject = $feature['GeoObject'];
+                        $pos = $geoObject['Point']['pos'];
+                        list($lng, $lat) = explode(' ', $pos);
+
+                        $fullAddress = $geoObject['metaDataProperty']['GeocoderMetaData']['text'];
+
+                        $results[] = [
+                            'address' => $fullAddress,
+                            'lat' => (float)$lat,
+                            'lng' => (float)$lng
+                        ];
+                    }
 
                     return $this->asJson([
+                        'data' => $results,
                         'success' => true,
-                        'address' => $fullAddress,
-                        'lat' => (float)$lat,
-                        'lng' => (float)$lng
+                        'count' => count($results) // Добавляем количество найденных вариантов
                     ]);
                 } else {
-                    throw new \Exception('Адрес не найден');
+                    throw new \Exception('Адреса не найдены');
                 }
 
             } catch (\Exception $e) {

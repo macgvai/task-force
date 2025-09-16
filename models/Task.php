@@ -31,6 +31,8 @@ class Task extends \yii\db\ActiveRecord
     public $noResponse;
     public $noLocation;
     public $filterPeriod;
+    public $lat;
+    public $lng;
     /**
      * @var mixed|null
      */
@@ -58,7 +60,7 @@ class Task extends \yii\db\ActiveRecord
             [['category_id', 'budget', 'client_id', 'performer_id'], 'default', 'value' => null],
             [['category_id', 'budget', 'client_id', 'performer_id', 'status_id'], 'integer'],
             [['description'], 'string'],
-            [['expire_dt', 'dt_add', 'noResponse', 'noLocation'], 'safe'],
+            [['expire_dt', 'dt_add', 'noResponse', 'noLocation', 'lat', 'lng'], 'safe'],
             [['name', 'location'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'id']],
