@@ -20,9 +20,12 @@ $user = Yii::$app->user->getIdentity();
     <?php endforeach; ?>
 
     <div class="task-map">
-        <img class="map" src="img/map.png"  width="725" height="346" alt="Новый арбат, 23, к. 1">
-        <p class="map-address town">Москва</p>
-        <p class="map-address">Новый арбат, 23, к. 1</p>
+        <div id="map" class="map"></div>
+
+<!--        <img class="map" src="img/map.png"  width="725" height="346" alt="Новый арбат, 23, к. 1">-->
+<!--        <p class="map-address town">Москва</p>-->
+        <p class="map-address"><?= $task->address->address ?></p>
+<!--        <p class="map-address">Новый арбат, 23, к. 1</p>-->
     </div>
     <h4 class="head-regular">Отклики на задание</h4>
     <?php foreach ($task->getReplies($user)->all() as $repl): ?>
@@ -54,7 +57,7 @@ $user = Yii::$app->user->getIdentity();
             <?php endif; ?>
             </div>
 
-    <?php endforeach; ?>s
+    <?php endforeach; ?>
 </div>
 <div class="right-column">
     <div class="right-card black info-card">
@@ -146,3 +149,43 @@ $user = Yii::$app->user->getIdentity();
         </div>
     </div>
 </section>
+
+<?php
+    $lat = $task->address->lat;
+    $lng = $task->address->lng;
+
+    $this->registerJs(
+    <<<JS
+    initMap();
+    
+    async function initMap() {
+        await ymaps3.ready;
+    
+        const { YMap, YMapDefaultSchemeLayer, YMapMarker, YMapDefaultFeaturesLayer } = ymaps3;
+    
+        const map = new YMap(
+            document.getElementById('map'),
+            {
+                location: {
+                    center: [$lng, $lat],
+                    zoom: 10
+                }
+            }
+        );
+    
+        map.addChild(new YMapDefaultSchemeLayer());
+        map.addChild(new YMapDefaultFeaturesLayer());
+    
+        // создаём элемент для маркера
+        const markerElement = document.createElement('div');
+        markerElement.className = 'my-marker';
+        markerElement.textContent = '📍';
+    
+        // добавляем маркер
+        const marker = new YMapMarker({ coordinates: [$lng, $lat] }, markerElement);
+        map.addChild(marker);
+    }
+JS
+
+    )
+?>

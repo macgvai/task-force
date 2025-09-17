@@ -193,4 +193,28 @@ class Task extends \yii\db\ActiveRecord
             return $this->hasOne(User::class, ['id' => 'performer_id']);
         }
     }
+
+    public function getAddress()
+    {
+        if ($this->location) {
+            // Разделяем адрес и координаты
+            $parts = explode(' lat:', $this->location);
+
+            // Извлекаем адрес
+            $address = trim($parts[0]);
+
+            // Разделяем координаты
+            $coords = explode(' lng:', $parts[1]);
+
+            // Извлекаем координаты
+            $lat = (float)$coords[0];
+            $lng = (float)$coords[1];
+
+            return (object) [
+                'address' => $address,
+                'lat' => $lat,
+                'lng' => $lng
+            ];
+        }
+    }
 }

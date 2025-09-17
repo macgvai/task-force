@@ -174,7 +174,7 @@ class TasksController extends SecureController
 
                 $response = $client->request('GET', 'https://geocode-maps.yandex.ru/1.x/', [
                     'query' => [
-                        'apikey' => '5f28bb6a-a01a-4859-8198-ada1ed5821cc',
+                        'apikey' => Yii::$app->params['yandex_map_api_key'],
                         'lang' => 'ru',
                         'format' => 'json',
                         'geocode' => $address

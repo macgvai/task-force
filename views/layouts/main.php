@@ -89,6 +89,9 @@ AppAsset::register($this);
 </main>
 <div class="overlay"></div>
 <?php $this->endBody() ?>
+
+<script src="https://api-maps.yandex.ru/v3/?apikey=<?= Yii::$app->params['yandex_map_api_key'] ?>&lang=ru_RU"></script>
+
 </body>
 </html>
 <?php $this->endPage() ?>
