@@ -21,7 +21,7 @@ $categories = $categories ?? [];
                 <p class="info-text"><span class="current-time"><?= Yii::$app->formatter->asRelativeTime($task->dt_add) ?> </span></p>
                 <p class="task-text"> <?= Html::encode(BaseStringHelper::truncate($task->description, 200) )  ?></p>
                 <div class="footer-task">
-                    <p class="info-text town-text"><?= $task->location ?></p>
+                    <p class="info-text town-text"><?= $task->address->address ?></p>
                     <p class="info-text category-text"> <?= $task->category->name ?></p>
                     <a href="<?= Url::to(['tasks/view', 'id' => $task->id])?>" class="button button--black">Смотреть Задание</a>
                 </div>
