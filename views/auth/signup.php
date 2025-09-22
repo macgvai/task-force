@@ -21,16 +21,6 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'is_contractor')
                     ->checkbox(['labelOptions' => ['class' => 'control-label checkbox-label']]); ?>
 
-            <button id="container"></button>
-
-            <?php try {
-                yii\authclient\widgets\AuthChoice::widget([
-                    'baseAuthUrl' => ['site/auth']
-                ]);
-            } catch (Throwable $e) {
-
-            } ?>
-
             <div class="form-group">
                 <input type="submit" class="button button--blue" value="Создать аккаунт">
             </div>
@@ -38,40 +28,3 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 </main>
-<!--    client_id: 'c0140e7e54bd4326842c51cbec844e9c',-->
-
-<?php
-$this->registerJs(<<<JS
-    YaAuthSuggest.init(
-        {
-            client_id: 'c0140e7e54bd4326842c51cbec844e9c',
-            response_type: 'code',
-            redirect_uri: 'http://localhost:8080/auth/yandex',
-            scope: 'login:email'
-        },
-        'http://localhost:8080/auth/yandex', 
-        {
-            view: 'button',
-            parentId: 'container',
-            buttonView: 'main',
-            buttonTheme: 'light',
-            buttonSize: 'm',
-            buttonBorderRadius: 0
-        }
-    )
-    .then(function(result) {
-       return result.handler()
-    })
-    .then(function(data) {
-       console.log('Сообщение с токеном: ', data);
-       document.body.innerHTML += 'Сообщение с токеном:' + JSON.stringify(data);
-       debugger
-    })
-    .catch(function(error) {
-       console.log('Что-то пошло не так: ', error);
-       document.body.innerHTML += 'Сообщение с токеном:' + JSON.stringify(data);
-    });
-
-
-JS, View::POS_READY);
-?>
