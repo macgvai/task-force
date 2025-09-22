@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use app\assets\LandingAsset;
+use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -125,11 +126,19 @@ LandingAsset::register($this);
             'inputOptions' => ['class' => 'enter-form-email input input-middle']])->passwordInput(); ?>
         <button class="button" type="submit">Войти</button>
         <?php ActiveForm::end(); ?>
+
+        <?= AuthChoice::widget([
+            'baseAuthUrl' => ['auth/yandex'],
+            'popupMode' => false,
+        ]); ?>
+
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
 </div>
 <div class="overlay"></div>
 <script src="js/landing.js"></script>
+
+<script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

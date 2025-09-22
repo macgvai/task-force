@@ -91,6 +91,10 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 
 <script src="https://api-maps.yandex.ru/v3/?apikey=<?= Yii::$app->params['yandex_map_api_key'] ?>&lang=ru_RU"></script>
+<script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
+<script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js"></script>
+
+
 
 </body>
 </html>

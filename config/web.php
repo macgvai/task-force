@@ -52,6 +52,16 @@ $config = [
                 '' => 'tasks/index'
             ],
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'yandex' => [
+                    'class' => 'yii\authclient\clients\Yandex',
+                    'clientId' => 'c0140e7e54bd4326842c51cbec844e9c',
+                    'clientSecret' => '7db42400176d404baa3664908ba89df4',
+                ],
+            ],
+        ]
     ],
     'params' => $params,
 ];
