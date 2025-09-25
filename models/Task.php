@@ -22,7 +22,7 @@ use function PHPUnit\Framework\isNull;
  * @property int $client_id
  * @property int|null $performer_id
  * @property int $status_id
- *
+ * @property User $performer
  * @property Category $category
  * @property Status $status
  */
@@ -189,9 +189,11 @@ class Task extends \yii\db\ActiveRecord
 
     public function getPerformer()
     {
-        if ($this->performer_id) {
-            return $this->hasOne(User::class, ['id' => 'performer_id']);
-        }
+        return $this->hasOne(User::class, ['id' => 'performer_id']);
+    }
+    public function getCustomer()
+    {
+        return $this->hasOne(User::class, ['id' => 'client_id']);
     }
 
     public function getAddress()

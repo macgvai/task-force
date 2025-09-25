@@ -97,6 +97,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-authclient" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-httpclient" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/la-haute-societe/yii2-save-relations-behavior" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/voskobovich/yii2-many-many-behavior" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

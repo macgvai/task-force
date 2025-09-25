@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use app\assets\AppAsset;
 use yii\helpers\Url;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 ?>
@@ -34,21 +35,32 @@ AppAsset::register($this);
         if (Yii::$app->controller->id !== 'auth'):
     ?>
 
+            <?=Menu::widget([
+                'options' => ['class' => 'nav-list'], 'activeCssClass' => 'list-item--active',
+                'itemOptions' => ['class' => 'list-item'],
+                'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
+                'items' => [
+                    ['label' => 'Все задания', 'url' => ['tasks/index']],
+                    ['label' => 'Мои задания', 'url' => ['my-tasks/index']],
+                    ['label' => 'Создать задание', 'url' => ['tasks/create']],
+                    ['label' => 'Настройки', 'url' => ['user/settings']]
+                ]
+            ]); ?>
 
-    <ul class="nav-list">
-                <li class="list-item list-item--active">
-                    <a class="link link--nav" >Новое</a>
-                </li>
-                <li class="list-item">
-                    <a href="#" class="link link--nav" >Мои задания</a>
-                </li>
-                <li class="list-item">
-                    <a href="<?= Url::to(['tasks/create']) ?>"" class="link link--nav" >Создать задание</a>
-                </li>
-                <li class="list-item">
-                    <a href="#" class="link link--nav" >Настройки</a>
-                </li>
-            </ul>
+<!--    <ul class="nav-list">-->
+<!--        <li class="list-item list-item--active">-->
+<!--            <a class="link link--nav" >Новое</a>-->
+<!--        </li>-->
+<!--        <li class="list-item">-->
+<!--            <a href="#" class="link link--nav" >Мои задания</a>-->
+<!--        </li>-->
+<!--        <li class="list-item">-->
+<!--            <a href="--><?php //= Url::to(['tasks/create']) ?><!--"" class="link link--nav" >Создать задание</a>-->
+<!--        </li>-->
+<!--        <li class="list-item">-->
+<!--            <a href="#" class="link link--nav" >Настройки</a>-->
+<!--        </li>-->
+<!--    </ul>-->
 
     <?php endif; ?>
 

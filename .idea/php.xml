@@ -108,6 +108,8 @@
       <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-httpclient" />
       <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-authclient" />
+      <path value="$PROJECT_DIR$/vendor/voskobovich/yii2-many-many-behavior" />
+      <path value="$PROJECT_DIR$/vendor/la-haute-societe/yii2-save-relations-behavior" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.4" />

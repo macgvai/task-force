@@ -2,9 +2,11 @@
 
 namespace app\models;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+
 
 /**
  * This is the model class for table "users".
@@ -29,7 +31,7 @@ class User  extends ActiveRecord implements IdentityInterface
     public $old_password;
     public $new_password;
     public $new_password_repeat;
-    public $hide_contacts;
+//    public $hide_contacts;
 
     /**
      * @var UploadedFile
@@ -44,6 +46,18 @@ class User  extends ActiveRecord implements IdentityInterface
         return 'users';
     }
 
+    public function behaviors()
+    {
+        return [
+            'saveRelations' => [
+                'class'     => SaveRelationsBehavior::class,
+                'relations' => [
+                    'userCategories'
+                ],
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -53,15 +67,18 @@ class User  extends ActiveRecord implements IdentityInterface
             [['email', 'name', 'city_id', 'password', 'password_repeat'], 'required'],
             [['city_id'], 'default', 'value' => null],
             [['city_id'], 'integer'],
-            [['dt_add', 'password_repeat'], 'safe'],
+            [['dt_add', 'password_repeat', 'new_password_repeat', 'phone', 'bd_date', 'tg', 'hide_contacts', 'description', 'is_contractor', 'categories', 'userCategories'], 'safe'],
             [['email', 'name'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 64],
             [['email'], 'unique'],
             [['email'], 'email'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
-            [['hide_contacts', 'is_contractor'], 'boolean'],
+            [[], 'boolean'],
             // Новое правило: проверка, что password_repeat совпадает с password
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
+            [['new_password'], 'compare', 'on' => 'update'],
+            [['avatarFile'], 'file', 'mimeTypes' => ['image/jpeg', 'image/png'], 'extensions' => ['png', 'jpg', 'jpeg']],
+
         ];
     }
 
@@ -173,7 +190,7 @@ class User  extends ActiveRecord implements IdentityInterface
 
         if ($user !== null) {
             // Дополнительный фильтр, если нужен, например, для проверки выполненных задач
-            $query->andWhere(['user_id' => $user->id]);
+            $query->andWhere(['client_id' => $user->id]);
         }
 
         return $query;
@@ -262,5 +279,51 @@ class User  extends ActiveRecord implements IdentityInterface
     public function increaseFailCount()
     {
         $this->updateCounters(['fail_count' => 1]);
+    }
+
+    public function getTasksByStatus($status)
+    {
+        $query = Task::find();
+        $query->joinWith('performer p')->joinWith('customer c');
+
+        switch ($status) {
+            case 'new':
+                $query->where(['status_id' => Status::STATUS_NEW]);
+                break;
+            case 'close':
+                $query->where(['status_id' => [Status::STATUS_COMPLETE, Status::STATUS_FAIL, Status::STATUS_CANCEL]]);
+                break;
+            case 'in_progress':
+                $query->where(['status_id' => Status::STATUS_IN_PROGRESS]);
+                break;
+            case 'expired':
+                $query->where(['status_id' => Status::STATUS_IN_PROGRESS])
+                    ->andWhere(['<', 'expire_dt', date('Y-m-d')]);
+                break;
+        }
+
+        $tb = $this->is_contractor ? 'p' : 'c';
+        $query->andWhere("$tb.id = :user_id", [':user_id' => $this->id]);
+
+        return $query;
+    }
+
+    public function beforeSave($insert)
+    {
+        parent::beforeSave($insert);
+
+        if ($this->avatarFile) {
+            $newname = uniqid() . '.' . $this->avatarFile->getExtension();
+            $path = 'uploads/' . $newname;
+
+            $this->avatarFile->saveAs('@webroot/uploads/' . $newname);
+            $this->avatar = $path;
+        }
+
+        if ($this->new_password) {
+            $this->setPassword($this->new_password);
+        }
+
+        return true;
     }
 }

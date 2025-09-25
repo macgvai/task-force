@@ -81,14 +81,14 @@ class UIHelper
         $items = [];
 
         if ($isContractor) {
-            $items[] = ['label' => 'В процессе', 'url' => ['tasks/my', 'status' => 'in_progress']];
-            $items[] = ['label' => 'Просрочено', 'url' => ['tasks/my', 'status' => 'expired']];
-            $items[] = ['label' => 'Закрытые', 'url' => ['tasks/my', 'status' => 'close']];
+            $items[] = ['label' => 'В процессе', 'url' => ['/my-tasks', 'status' => 'in_progress']];
+            $items[] = ['label' => 'Просрочено', 'url' => ['/my-tasks', 'status' => 'expired']];
+            $items[] = ['label' => 'Закрытые', 'url' => ['/my-tasks', 'status' => 'close']];
         }
         else {
-            $items[] = ['label' => 'Новые', 'url' => ['tasks/my', 'status' => 'new']];
-            $items[] = ['label' => 'В процессе', 'url' => ['tasks/my', 'status' => 'in_progress']];
-            $items[] = ['label' => 'Закрытые', 'url' => ['tasks/my', 'status' => 'close']];
+            $items[] = ['label' => 'Новые', 'url' => ['/my-tasks', 'status' => 'new']];
+            $items[] = ['label' => 'В процессе', 'url' => ['/my-tasks', 'status' => 'in_progress']];
+            $items[] = ['label' => 'Закрытые', 'url' => ['/my-tasks', 'status' => 'close']];
         }
 
         return $items;
